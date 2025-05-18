@@ -1,0 +1,23 @@
+# Artefatos de compilação
+*.o
+*.obj
+*.exe
+bin/
+a.out # Executável padrão no Linux/macOS se não definido
+
+# Arquivos temporários do editor/SO
+*~
+#*#
+*.swp
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Diretórios da IDE (descomente o seu)
+.vscode/
+.idea/
+.vs/
+
+# Arquivos de depuração
+*.dSYM/ # macOS
+
+# Arquivos de dados gerados (ajustar se necessário)
