@@ -14,7 +14,7 @@ int main()
 {
     ALLEGRO_DISPLAY *display = nullptr;
     ALLEGRO_EVENT_QUEUE *event_queue = nullptr;
-    ALLEGRO_TIMER *timer = nullptr;
+    //ALLEGRO_TIMER *timer = nullptr;
 
     // Inicializar o Allegro
     if (!al_init())

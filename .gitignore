@@ -2,22 +2,51 @@
 *.o
 *.obj
 *.exe
+*.out
+*.app
+main
+a.out
+
+# Bibliotecas compiladas
+*.so
+*.dylib
+*.dll
+*.lai
+*.la
+*.a
+*.lib
+
+# Headers pré-compilados
+*.gch
+*.pch
+
+# Arquivos de pré-requisito
+*.d
+
+# Diretórios de build
 bin/
-a.out # Executável padrão no Linux/macOS se não definido
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
 
 # Arquivos temporários do editor/SO
 *~
 #*#
 *.swp
-.DS_Store # macOS
-Thumbs.db # Windows
+*.tmp
+*.log
 
-# Diretórios da IDE (descomente o seu)
+# Diretórios da IDE
 .vscode/
 .idea/
 .vs/
 
 # Arquivos de depuração
-*.dSYM/ # macOS
+*.dSYM/
+*.mod
+*.smod
 
-# Arquivos de dados gerados (ajustar se necessário)
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

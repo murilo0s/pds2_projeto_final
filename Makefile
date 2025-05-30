@@ -13,19 +13,19 @@ TARGET = $(BIN_DIR)/jogo
 all: $(BIN_DIR) $(OBJ_DIR) $(TARGET)
 
 $(BIN_DIR):
-    mkdir -p $(BIN_DIR)
+	mkdir -p $(BIN_DIR)
 
 $(OBJ_DIR):
-    mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-    $(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJECTS)
-    $(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-    rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) *.log *.tmp
 
 run: all
-    ./$(TARGET)
+	@./$(TARGET)
