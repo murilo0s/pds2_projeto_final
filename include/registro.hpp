@@ -6,7 +6,7 @@
 
 using namespace std;
 
-struct Jogador {
+class Jogador {
 
 private:
         string nome;
