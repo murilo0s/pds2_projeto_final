@@ -1,5 +1,5 @@
-#ifndef PLAYER_MANAGER_HPP
-#define PLAYER_MANAGER_HPP
+#ifndef REGISTRO_HPP
+#define REGISTRO_HPP
 
 #include <iostream>
 #include <fstream>
@@ -100,4 +100,4 @@ public:
     }
 };
 
-#endif
+#endif // Final do meu header REGISTRO_HPP
