@@ -34,8 +34,8 @@ public:
     }
 
     // Salva a lista de jogadores em um arquivo
-    void salvar(const std::string& nomeArquivo) const {
-        std::ofstream arquivo(nomeArquivo);
+    void salvar(const std::string& ranking.txt) const {
+        std::ofstream arquivo(ranking.txt);
         if (!arquivo.is_open()) {
             std::cerr << "Erro ao abrir arquivo para escrita.\n";
             return;
@@ -49,9 +49,9 @@ public:
     }
 
     // Carrega jogadores de um arquivo
-    void carregar(const std::string& nomeArquivo) {
+    void carregar(const std::string& ranking.txt) {
         jogadores.clear(); // limpa lista atual
-        std::ifstream arquivo(nomeArquivo);
+        std::ifstream arquivo(ranking.txt);
         if (!arquivo.is_open()) {
             std::cerr << "Arquivo não encontrado. Será criado posteriormente.\n";
             return;
