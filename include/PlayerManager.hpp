@@ -11,7 +11,7 @@ private:
     std::vector<Player> jogadores;
 
 public:
-    void cadastrar(const std::string& nome, int pontuacao);
+    void cadastrar(const std::string& nome,const std::string& apelido );
     void salvar(const std::string& nomeArquivo) const;
     void carregar(const std::string& nomeArquivo);
     void ordenarRanking();
