@@ -5,10 +5,17 @@
 
 
 
-
+bool apelidoExiste(const std::string& apelido) const {
+    for (const auto& jogador : jogadores) {
+        if (jogador.getApelido() == apelido) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
-    jogadores.push_back(Player(nome, pontuacao));
+    (Player(nome, pontuacao));
 }
 
 void PlayerManager::salvar(const std::string& nomeArquivo) const {
