@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-
+// Adicionar Excluircadastro e checar apelidoexiste 
 
 
 void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
