@@ -1,4 +1,5 @@
 #include "PlayerManager.hpp"
+#include "Player.hpp"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
