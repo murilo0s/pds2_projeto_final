@@ -7,7 +7,7 @@
 
 
 
-void PlayerManager::cadastrar(const std::string& nome, int pontuacao) {
+void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
     jogadores.push_back(Player(nome, pontuacao));
 }
 
