@@ -32,4 +32,4 @@ public:
     const std::vector<Player>& getJogadores() const;
 };
 
-#endif // PLAYERMANAGER_HPP
+#endif //  fim do meu PLAYERMANAGER_HPP...
