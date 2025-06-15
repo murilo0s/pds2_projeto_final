@@ -4,19 +4,7 @@
 #include <string>
 #include <vector>
 
-class Player {
-private:
-    std::string nome;
-    int pontuacao;
 
-public:
-    Player(std::string nome, int pontuacao);
-
-    std::string getNome() const;
-    int getPontuacao() const;
-    void setNome(const std::string& n);
-    void setPontuacao(int p);
-};
 
 class PlayerManager {
 private:
