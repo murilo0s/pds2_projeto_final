@@ -26,7 +26,7 @@ void PlayerManager::salvar(const std::string& nomeArquivo) const {
     }
 
     for (const auto& jogador : jogadores) {
-        arquivo << jogador.getNome() << " " << jogador.getPontuacaoMax () << "\n";
+        arquivo << jogador.getNome() << " " << jogador.getPonto_max () << "\n";
     }
 
     arquivo.close();
