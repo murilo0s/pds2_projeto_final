@@ -5,6 +5,11 @@
 
 
 
+
+
+void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
+    Player *jogador=new Player(nome,apelido);
+}
 bool apelidoExiste(const std::string& apelido) const {
     for (const auto& jogador : jogadores) {
         if (jogador.getApelido() == apelido) {
@@ -13,11 +18,6 @@ bool apelidoExiste(const std::string& apelido) const {
     }
     return false;
 }
-
-void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
-    (Player(nome, pontuacao));
-}
-
 void PlayerManager::salvar(const std::string& nomeArquivo) const {
     std::ofstream arquivo(nomeArquivo);
     if (!arquivo.is_open()) {
@@ -26,7 +26,7 @@ void PlayerManager::salvar(const std::string& nomeArquivo) const {
     }
 
     for (const auto& jogador : jogadores) {
-        arquivo << jogador.getNome() << " " << jogador.getPontuacao() << "\n";
+        arquivo << jogador.getNome() << " " << jogador.getPontuacaoMax () << "\n";
     }
 
     arquivo.close();
