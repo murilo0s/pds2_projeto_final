@@ -1,16 +1,11 @@
 #include "PlayerManager.hpp"
-#include "Player.hpp"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 
-Player::Player(std::string nome, int pontuacao)
-    : nome(nome), pontuacao(pontuacao) {}
 
-std::string Player::getNome() const { return nome; }
-int Player::getPontuacao() const { return pontuacao; }
-void Player::setNome(const std::string& n) { nome = n; }
-void Player::setPontuacao(int p) { pontuacao = p; }
+
+
 
 void PlayerManager::cadastrar(const std::string& nome, int pontuacao) {
     jogadores.push_back(Player(nome, pontuacao));
