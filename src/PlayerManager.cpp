@@ -41,13 +41,15 @@ void PlayerManager::salvar(){
 
     for (Player& jogador : jogadores) {
         arquivo << jogador.getNome() << " " << jogador.getApelido() << " " << jogador.getTotal_partidas() << " " << jogador.getPonto_max() << endl;;
+
     }
 
     arquivo.close();
 }
 
 void PlayerManager::carregar(const std::string& nomeArquivo) {
-    jogadores.clear();
+    jogadores.clear();  // limpa jogadores existentes
+
     std::ifstream arquivo(nomeArquivo);
     if (!arquivo.is_open()) {
         std::cerr << "Arquivo não encontrado. Será criado posteriormente.\n"; //lançar exceção
@@ -62,6 +64,7 @@ void PlayerManager::carregar(const std::string& nomeArquivo) {
 
     arquivo.close();
 }
+
 
 void PlayerManager::ordenarRanking() {
     std::sort(jogadores.begin(), jogadores.end(), [](const Player& a, const Player& b) {
