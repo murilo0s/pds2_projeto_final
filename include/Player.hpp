@@ -14,16 +14,15 @@ class Player{
     int total_partidas;
 
     public:            
-    Player(string _nome, string _apelido);
-    //~Player();
-
-
+    Player(string _nome, string _apelido); //construtor para novos cadastros
+    Player(string _nome, string _apelido, int _pontuacao_max, int _total_partidas); //construtor para recuperar cadastros do arquivo
     int incrementar_partidas();
     void update_pontuacao_max(int pontuacao_atual);
     string getNome();
     string getApelido();
     int getPonto_max();
     int getTotal_partidas();
+    void imprimir_jogador();
 };
 
 #endif

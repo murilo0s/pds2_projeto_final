@@ -3,21 +3,22 @@
 
 #include <string>
 #include <vector>
+#include "Player.hpp"
 
-
+using namespace std;
 
 class PlayerManager {
 private:
     std::vector<Player> jogadores;
 
 public:
-    void cadastrar(const std::string& nome,const std::string& apelido );//cadastro de um jogador
-    void salvar(const std::string& nomeArquivo) const;//salvando em um arquivo
-    void carregar(const std::string& nomeArquivo);//carregando arquivo
+    void cadastrar(string _nome, string _apelido);//cadastro de um jogador
+    void salvar();//salvando em um arquivo
+    void carregar(const string& nomeArquivo);//carregando arquivo
     void ordenarRanking();//
     Player getMelhorJogador() const;
-    void exibir() const;
+    void exibir();
     const std::vector<Player>& getJogadores() const;
 };
 
-#endif //  fim do meu PLAYERMANAGER_HPP...
+#endif 

@@ -10,8 +10,15 @@ Player::Player(string _nome, string _apelido){
     this->total_partidas = 0;
 };
 
+Player::Player(string _nome, string _apelido, int _pontuacao_max, int _total_partidas){
+    this->nome = _nome;
+    this->apelido = _apelido;
+    this->pontuacao_max = _pontuacao_max;
+    this->total_partidas = _total_partidas;
+};
+
 int Player::incrementar_partidas(){
-    this->total_partidas ++;
+    return this->total_partidas ++;
 };
 
 void Player::update_pontuacao_max(int pontuacao_atual){
@@ -33,5 +40,8 @@ int Player::getPonto_max(){
 
 int Player::getTotal_partidas(){
     return this->total_partidas;
-
 };
+
+void Player::imprimir_jogador(){
+    cout << this->nome << " " << this->apelido << " " << this->total_partidas << " " << this->pontuacao_max << endl;
+}

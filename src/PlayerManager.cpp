@@ -2,31 +2,45 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include "Player.hpp"
+
+using namespace std;
+
+// O QUE FALTA:
+
+// Adicionar Excluircadastro 
+// Melhorar tratamento de exceções
+// Testar e corrigir ordenarRanking() e getMelhorJogador() Obs: ja testei as outras, estao funcionando 
+// Fazer os casos de testes 
+// Documentar com Doxygen
+// Ajuste fino no visual do arquivo de texto e exibição do ranking (allegro)
 
 
-// Adicionar Excluircadastro e checar apelidoexiste 
-
-
-void PlayerManager::cadastrar(const std::string& nome, const std::string& apelido) {
-    Player *jogador=new Player(nome,apelido);
-}
-bool apelidoExiste(const std::string& apelido) const {
-    for (const auto& jogador : jogadores) {
-        if (jogador.getApelido() == apelido) {
-            return true;
+void PlayerManager::cadastrar(string _nome, string _apelido) {
+    try {
+        for (Player& jogador : jogadores) {
+            if (jogador.getApelido() == _apelido) {
+                throw "Apelido já existe";
+            }
         }
+        jogadores.push_back(Player(_nome, _apelido));
+    } catch (const char* e) {
+        cout << "Erro: " << e << endl;
     }
-    return false;
 }
-void PlayerManager::salvar(const std::string& nomeArquivo) const {
-    std::ofstream arquivo(nomeArquivo);
-    if (!arquivo.is_open()) {
+
+void PlayerManager::salvar(){
+    ofstream arquivo;
+    arquivo.open("Jogadores_Cadastrados.txt");
+
+    try{
+       if (!arquivo.is_open());
+    }catch(exception& arquivoIndisponivel){
         std::cerr << "Erro ao abrir arquivo para escrita.\n";
-        return;
     }
 
-    for (const auto& jogador : jogadores) {
-        arquivo << jogador.getNome() << " " << jogador.getPonto_max () << jogador.getTotal_partidas() <<jogador.getApelido() << "\n";
+    for (Player& jogador : jogadores) {
+        arquivo << jogador.getNome() << " " << jogador.getApelido() << " " << jogador.getTotal_partidas() << " " << jogador.getPonto_max() << endl;;
     }
 
     arquivo.close();
@@ -36,14 +50,14 @@ void PlayerManager::carregar(const std::string& nomeArquivo) {
     jogadores.clear();
     std::ifstream arquivo(nomeArquivo);
     if (!arquivo.is_open()) {
-        std::cerr << "Arquivo não encontrado. Será criado posteriormente.\n";
+        std::cerr << "Arquivo não encontrado. Será criado posteriormente.\n"; //lançar exceção
         return;
     }
 
-    std::string nome;
-    int pontuacao;
-    while (arquivo >> nome >> pontuacao) {
-        jogadores.push_back(Player(nome, pontuacao));
+    string nome, apelido;
+    int total_partidas, pontuacao_max;
+    while (arquivo >> nome >> apelido >> total_partidas >> pontuacao_max) {
+        jogadores.push_back(Player(nome, apelido, total_partidas, pontuacao_max));
     }
 
     arquivo.close();
@@ -51,7 +65,7 @@ void PlayerManager::carregar(const std::string& nomeArquivo) {
 
 void PlayerManager::ordenarRanking() {
     std::sort(jogadores.begin(), jogadores.end(), [](const Player& a, const Player& b) {
-        return a.getPontuacao() > b.getPontuacao();
+        return a.pontuacao_max() > b.pontuacao_max();
     });
 }
 
@@ -65,16 +79,17 @@ Player PlayerManager::getMelhorJogador() const {
     });
 }
 
-void PlayerManager::exibir() const {
+void PlayerManager::exibir() {
     std::cout << "=== RANKING ===\n";
     int pos = 1;
-    for (const auto& jogador : jogadores) {
-        std::cout << pos++ << ". " << jogador.getNome() << " - " << jogador.getPontuacao() << "\n";
+
+    for(Player& jogador: jogadores){
+        cout << pos++ << " "; 
+        jogador.imprimir_jogador();
     }
-    std::cout << "===============\n";
+
 }
 
 const std::vector<Player>& PlayerManager::getJogadores() const {
     return jogadores;
 }
-
