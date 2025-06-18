@@ -6,13 +6,11 @@
 
 using namespace std;
 
-// O QUE FALTA:
+// TODO:
 
-// Adicionar Excluircadastro
-// Testar e corrigir ordenarRanking() e getMelhorJogador() Obs: ja testei as outras, estao funcionando
+// Testar e corrigir ordenarRanking() e getMelhorJogador() Obs: ja testei as outras, estao funcionando pelo q  parece
 // Fazer os casos de testes
 // Documentar com Doxygen
-// Ajuste fino no visual do arquivo de texto e exibição do ranking (allegro)
 
 void PlayerManager::cadastrar(string _nome, string _apelido)
 {
@@ -26,6 +24,25 @@ void PlayerManager::cadastrar(string _nome, string _apelido)
     }
     jogadores.push_back(Player(_nome, _apelido));
 }
+
+void PlayerManager::remover_cadastro(string _apelido){
+    int contador = 0;
+
+    for (Player &jogador : jogadores)
+    {
+        if (jogador.getApelido() == _apelido)
+        {
+            jogadores.erase(jogadores.begin() + contador);
+            
+            std::ofstream file("Jogadores_Cadastrados.txt", std::ios::trunc); //exclue informações do arquivo de texto
+            
+            this->salvar(); //salva informações novamente, agora sem o jogador que foi excluído
+
+            return;
+        }
+        contador ++;
+    }
+};
 
 void PlayerManager::salvar()
 {
@@ -83,7 +100,7 @@ Player PlayerManager::getMelhorJogador() const
     return *std::max_element(jogadores.begin(), jogadores.end(), [](const Player &a, const Player &b)
                              { return a.getPontuacao() < b.getPontuacao(); });
 }
-
+                             
 void PlayerManager::exibir()
 {
     std::cout << "=== RANKING ===\n";

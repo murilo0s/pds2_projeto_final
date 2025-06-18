@@ -13,6 +13,7 @@ private:
 
 public:
     void cadastrar(string _nome, string _apelido);//cadastro de um jogador
+    void remover_cadastro(string _apelido);
     void salvar();//salvando em um arquivo
     void carregar(const string& nomeArquivo);//carregando arquivo
     void ordenarRanking();//
