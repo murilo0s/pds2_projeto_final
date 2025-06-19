@@ -20,7 +20,7 @@ class Player{
     void update_pontuacao_max(int pontuacao_atual);
     string getNome();
     string getApelido();
-    int getPonto_max();
+    int getPonto_max() const;
     int getTotal_partidas();
     void imprimir_jogador();
 };
