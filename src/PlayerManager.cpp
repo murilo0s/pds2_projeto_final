@@ -57,7 +57,7 @@ void PlayerManager::salvar()
 
     for (Player &jogador : jogadores)
     {
-        arquivo << jogador.getNome() << " " << jogador.getApelido() << " " << jogador.getTotal_partidas() << " " << jogador.getPonto_max() << endl;
+        arquivo << jogador.getNome() << " " << jogador.getApelido() << " " << jogador.getPonto_max() << jogador.getTotal_partidas() << endl;
     }
 
     arquivo.close();
@@ -75,10 +75,10 @@ void PlayerManager::carregar(const std::string &nomeArquivo)
     }
 
     string nome, apelido;
-    int total_partidas, pontuacao_max;
-    while (arquivo >> nome >> apelido >> total_partidas >> pontuacao_max)
+    int pontuacao_max, total_partidas;
+    while (arquivo >> nome >> apelido >> pontuacao_max >> total_partidas)
     {
-        jogadores.push_back(Player(nome, apelido, total_partidas, pontuacao_max));
+        jogadores.push_back(Player(nome, apelido, pontuacao_max, total_partidas));
     }
 
     arquivo.close();
@@ -87,18 +87,19 @@ void PlayerManager::carregar(const std::string &nomeArquivo)
 void PlayerManager::ordenarRanking()
 {
     std::sort(jogadores.begin(), jogadores.end(), [](const Player &a, const Player &b)
-              { return a.pontuacao_max() > b.pontuacao_max(); });
+              { return a.getPonto_max() > b.getPonto_max(); });
 }
 
 Player PlayerManager::getMelhorJogador() const
 {
     if (jogadores.empty())
     {
-        return Player("Nenhum", 0);
+        std::cerr << "Não há jogadore cadastrados." << std::endl;
+        return Player("Nenhum", "Nenhum", 0, 0); // Retorna um jogador vazio se não houver jogadores
     }
 
     return *std::max_element(jogadores.begin(), jogadores.end(), [](const Player &a, const Player &b)
-                             { return a.getPontuacao() < b.getPontuacao(); });
+                             { return a.getPonto_max() < b.getPonto_max(); });
 }
                              
 void PlayerManager::exibir()
