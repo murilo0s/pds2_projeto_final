@@ -22,6 +22,9 @@ int Player::incrementar_partidas(){
 };
 
 void Player::update_pontuacao_max(int pontuacao_atual){
+    if(pontuacao_atual < 0)
+    return;
+
     if(pontuacao_atual > this->pontuacao_max)
         this->pontuacao_max = pontuacao_atual;
 };
@@ -34,7 +37,7 @@ string Player::getApelido(){
     return this->apelido;
 };
 
-int Player::getPonto_max(){
+int Player::getPonto_max()const {
     return this->pontuacao_max;
 };
 

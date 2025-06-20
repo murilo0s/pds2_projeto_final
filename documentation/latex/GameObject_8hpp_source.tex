@@ -1,0 +1,51 @@
+\doxysection{Game\+Object.\+hpp}
+\hypertarget{GameObject_8hpp_source}{}\label{GameObject_8hpp_source}\index{include/GameObject.hpp@{include/GameObject.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAMEOBJECT\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAMEOBJECT\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <allegro5/allegro.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Classe\ base\ para\ todos\ os\ objetos\ do\ jogo}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGameObject}{GameObject}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{float}\ x,\ y;\ \textcolor{comment}{//\ Posição\ do\ objeto\ no\ espaço\ (coordenadas)}}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ width,\ height;\ \textcolor{comment}{//\ Dimensões\ do\ objeto\ (largura\ e\ altura)}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ speedX,\ speedY;\ \textcolor{comment}{//\ Velocidade\ do\ objeto\ nos\ eixos\ X\ e\ Y}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Construtor:\ inicializa\ posição\ e\ dimensões\ do\ objeto}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classGameObject}{GameObject}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ width,\ \textcolor{keywordtype}{float}\ height);}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Destrutor\ virtual\ padrão\ (permite\ herança\ segura)}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classGameObject}{\string~GameObject}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ Métodos\ virtuais\ puros\ (devem\ ser\ implementados\ pelas\ classes\ derivadas)}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ update()\ =\ 0;\ \textcolor{comment}{//\ Atualiza\ o\ estado\ do\ objeto}}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ draw()\ =\ 0;\ \textcolor{comment}{//\ Desenha\ o\ objeto\ na\ tela}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ isColliding(\textcolor{keyword}{const}\ \mbox{\hyperlink{classGameObject}{GameObject}}\&\ other)\ =\ 0;\ \textcolor{comment}{//\ Verifica\ colisão\ com\ outro\ objeto}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ Métodos\ de\ implementação\ (podem\ ser\ sobrescritos)}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ isOffScreen();\ \textcolor{comment}{//\ Verifica\ se\ o\ objeto\ saiu\ da\ tela}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ move()\ \{\ \textcolor{comment}{//\ Move\ o\ objeto\ de\ acordo\ com\ sua\ velocidade}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ x\ +=\ speedX;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ y\ +=\ speedY;}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ Getters\ (acessam\ atributos\ privados/protegidos)}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{float}\ getX()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ x;\ \}\ \textcolor{comment}{//\ Retorna\ posição\ X}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{float}\ getY()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ y;\ \}\ \textcolor{comment}{//\ Retorna\ posição\ Y}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{float}\ getWidth()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ width;\ \}\ \textcolor{comment}{//\ Retorna\ largura}}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{float}\ getHeight()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ height;\ \}\ \textcolor{comment}{//\ Retorna\ altura}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{float}\ getSpeedX()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ speedX;\ \}\ \textcolor{comment}{//\ Retorna\ velocidade\ X}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{float}\ getSpeedY()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ speedY;\ \}\ \textcolor{comment}{//\ Retorna\ velocidade\ Y}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ Setters\ (modificam\ atributos)}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ setPosition(\textcolor{keywordtype}{float}\ newX,\ \textcolor{keywordtype}{float}\ newY);\ \textcolor{comment}{//\ Define\ nova\ posição}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ setSpeed(\textcolor{keywordtype}{float}\ newSpeedX,\ \textcolor{keywordtype}{float}\ newSpeedY);\ \textcolor{comment}{//\ Define\ nova\ velocidade}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

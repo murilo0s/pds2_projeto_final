@@ -1,0 +1,42 @@
+\doxysection{bird.\+hpp}
+\hypertarget{bird_8hpp_source}{}\label{bird_8hpp_source}\index{include/bird.hpp@{include/bird.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}GameObject.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <allegro5/allegro.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBird}{Bird}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classGameObject}{GameObject}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordtype}{float}\ speedY;\ \textcolor{comment}{//\ Velocidade\ vertical\ do\ pássaro}}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ gravity;\ \textcolor{comment}{//\ Força\ da\ gravidade\ aplicada\ ao\ pássaro}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ jumpStrength;\ \textcolor{comment}{//\ Força\ do\ pulo\ do\ pássaro}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ carrega\ a\ imagem\ do\ pássaro}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ ALLEGRO\_BITMAP\ *bird\_img;\ \textcolor{comment}{//\ Imagem\ do\ pássaro}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ width,\ height;\ \textcolor{comment}{//\ Dimensões\ da\ imagem\ do\ pássaro}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ construtor\ (inicializa\ o\ passaro\ com\ uma\ posição\ inicial)}}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classBird}{Bird}}(\textcolor{keywordtype}{float}\ startX,\ \textcolor{keywordtype}{float}\ startY);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ destrutor}}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classBird}{\string~Bird}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ faz\ o\ passaro\ pular}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ jump();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ metodos\ herdados\ de\ GameObject}}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ update()\ \textcolor{keyword}{override};\ \textcolor{comment}{//\ Atualiza\ a\ posição\ do\ pássaro\ com\ base\ na\ velocidade}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ render()\ \textcolor{keyword}{override};\ \textcolor{comment}{//\ Desenha\ o\ pássaro\ na\ tela}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ isColliding(\textcolor{keyword}{const}\ \mbox{\hyperlink{classGameObject}{GameObject}}\&\ other)\ \textcolor{keyword}{override};\ \textcolor{comment}{//\ Verifica\ colisão\ com\ outro\ objeto}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ getters\ para\ detectar\ colisão}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ getWidth()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ getHeight()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \};}
+
+\end{DoxyCode}

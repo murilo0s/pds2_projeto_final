@@ -1,0 +1,84 @@
+\doxysection{Game\+Object Class Reference}
+\hypertarget{classGameObject}{}\label{classGameObject}\index{GameObject@{GameObject}}
+
+
+Inheritance diagram for Game\+Object\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classGameObject__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGameObject_a7a95e9893e87f123223056197d611686}\label{classGameObject_a7a95e9893e87f123223056197d611686} 
+{\bfseries Game\+Object} (float x, float y, float width, float height)
+\item 
+\Hypertarget{classGameObject_ae83128d0e0efef691417779605ee037c}\label{classGameObject_ae83128d0e0efef691417779605ee037c} 
+virtual void {\bfseries update} ()=0
+\item 
+\Hypertarget{classGameObject_a59f11cba9071a39ba2f486a8364ed536}\label{classGameObject_a59f11cba9071a39ba2f486a8364ed536} 
+virtual void {\bfseries draw} ()=0
+\item 
+\Hypertarget{classGameObject_a4e06e6dffd90ea49463598c86fea5c46}\label{classGameObject_a4e06e6dffd90ea49463598c86fea5c46} 
+virtual bool {\bfseries is\+Colliding} (const \mbox{\hyperlink{classGameObject}{Game\+Object}} \&other)=0
+\item 
+\Hypertarget{classGameObject_a94c51f834fa60c53c6f7e37717c09333}\label{classGameObject_a94c51f834fa60c53c6f7e37717c09333} 
+virtual bool {\bfseries is\+Off\+Screen} ()
+\item 
+\Hypertarget{classGameObject_ac7a44de28e20410f81553e3aad217fcf}\label{classGameObject_ac7a44de28e20410f81553e3aad217fcf} 
+virtual void {\bfseries move} ()
+\item 
+\Hypertarget{classGameObject_abe61df236efb58849b29d242d87fc59f}\label{classGameObject_abe61df236efb58849b29d242d87fc59f} 
+float {\bfseries getX} () const
+\item 
+\Hypertarget{classGameObject_a3f55728263b9ce2407459d14b9861b04}\label{classGameObject_a3f55728263b9ce2407459d14b9861b04} 
+float {\bfseries getY} () const
+\item 
+\Hypertarget{classGameObject_a665147ee46e9b62442b2d6b9835c4dd4}\label{classGameObject_a665147ee46e9b62442b2d6b9835c4dd4} 
+float {\bfseries get\+Width} () const
+\item 
+\Hypertarget{classGameObject_a927400453a0989e2f5b765031f4d861c}\label{classGameObject_a927400453a0989e2f5b765031f4d861c} 
+float {\bfseries get\+Height} () const
+\item 
+\Hypertarget{classGameObject_a22b528288aa0a4adda44b146631dcac1}\label{classGameObject_a22b528288aa0a4adda44b146631dcac1} 
+float {\bfseries get\+SpeedX} () const
+\item 
+\Hypertarget{classGameObject_a84f009fcd97a03ad5c9a003bb27ef694}\label{classGameObject_a84f009fcd97a03ad5c9a003bb27ef694} 
+float {\bfseries get\+SpeedY} () const
+\item 
+\Hypertarget{classGameObject_aa57f499a8f87b90087f6ba8404210bd7}\label{classGameObject_aa57f499a8f87b90087f6ba8404210bd7} 
+void {\bfseries set\+Position} (float newX, float newY)
+\item 
+\Hypertarget{classGameObject_ab3edf2ca49d3d8e23cb90465152b04de}\label{classGameObject_ab3edf2ca49d3d8e23cb90465152b04de} 
+void {\bfseries set\+Speed} (float new\+SpeedX, float new\+SpeedY)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGameObject_ad4976cd29785cf9bd791148ff397c41e}\label{classGameObject_ad4976cd29785cf9bd791148ff397c41e} 
+float {\bfseries x}
+\item 
+\Hypertarget{classGameObject_a9ac54f1c686ecf5656139a829ed62041}\label{classGameObject_a9ac54f1c686ecf5656139a829ed62041} 
+float {\bfseries y}
+\item 
+\Hypertarget{classGameObject_af797cec05ff1d3cbc694fc7036add37b}\label{classGameObject_af797cec05ff1d3cbc694fc7036add37b} 
+float {\bfseries width}
+\item 
+\Hypertarget{classGameObject_a0ae9c255f47b6148c26d0333a72d0625}\label{classGameObject_a0ae9c255f47b6148c26d0333a72d0625} 
+float {\bfseries height}
+\item 
+\Hypertarget{classGameObject_ad22779631484237d9051fc360bc31ba4}\label{classGameObject_ad22779631484237d9051fc360bc31ba4} 
+float {\bfseries speedX}
+\item 
+\Hypertarget{classGameObject_a0ece0579c450cfd07fb5a276d0b28ff2}\label{classGameObject_a0ece0579c450cfd07fb5a276d0b28ff2} 
+float {\bfseries speedY}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Game\+Object.\+hpp\item 
+src/Game\+Object.\+cpp\end{DoxyCompactItemize}

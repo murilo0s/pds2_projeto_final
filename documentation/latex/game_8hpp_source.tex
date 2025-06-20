@@ -1,0 +1,126 @@
+\doxysection{game.\+hpp}
+\hypertarget{game_8hpp_source}{}\label{game_8hpp_source}\index{include/game.hpp@{include/game.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAME\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAME\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <allegro5/allegro.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_image.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_font.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_ttf.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBird}{Bird}};}
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPipe}{Pipe}};}
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPlayerManager}{PlayerManager}};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{enum}\ GameState\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ MENU,}
+\DoxyCodeLine{00016\ \ \ \ \ PLAYING,}
+\DoxyCodeLine{00017\ \ \ \ \ GAME\_OVER}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGame}{Game}}\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//Componetes\ do\ allegro}}
+\DoxyCodeLine{00024\ \ \ \ \ ALLEGRO\_DISPLAY*\ display;\ \textcolor{comment}{//\ Janela\ do\ jogo}}
+\DoxyCodeLine{00025\ \ \ \ \ ALLEGRO\_EVENT\_QUEUE*\ eventQueue;\ \textcolor{comment}{//\ Fila\ de\ eventos}}
+\DoxyCodeLine{00026\ \ \ \ \ ALLEGRO\_TIMER*\ timer;\ \textcolor{comment}{//\ Temporizador\ para\ controle\ de\ FPS}}
+\DoxyCodeLine{00027\ \ \ \ \ ALLEGRO\_FONT*\ font;\ \textcolor{comment}{//\ Fonte\ para\ renderização\ de\ texto}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Objetos\ do\ jogo}}
+\DoxyCodeLine{00030\ \ \ \ \ std::unique\_ptr<Bird>\ bird;\ \textcolor{comment}{//\ Pássaro\ controlado\ pelo\ jogador}}
+\DoxyCodeLine{00031\ \ \ \ \ std::vector<std::unique\_ptr<Pipe>>\ pipes;\ \textcolor{comment}{//\ Pipes\ que\ o\ pássaro\ deve\ evitar}}
+\DoxyCodeLine{00032\ \ \ \ \ std::unique\_ptr<PlayerManager>\ playerManager;\ \textcolor{comment}{//\ Gerenciador\ de\ jogadores}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//\ Estado\ do\ jogo}}
+\DoxyCodeLine{00035\ \ \ \ \ GameState\ currentState;\ \textcolor{comment}{//\ Estado\ atual\ do\ jogo}}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ score;\ \textcolor{comment}{//\ Pontuação\ do\ jogador}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ highScore;\ \textcolor{comment}{//\ Melhor\ pontuação\ registrada}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ running;\ \textcolor{comment}{//\ Flag\ para\ controle\ do\ loop\ principal}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ keys[ALLEGRO\_KEY\_MAX];\ \textcolor{comment}{//\ Array\ para\ controle\ de\ teclas\ pressionadas}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ Controle\ de\ tempo}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{double}\ lastPipeSpawn;\ \textcolor{comment}{//\ Tempo\ do\ último\ pipe\ gerado}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{double}\ gameStartTime;\ \textcolor{comment}{//\ Tempo\ de\ início\ do\ jogo}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Dimensões\ da\ tela}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ SCREEN\_WIDTH\ =\ 800;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ SCREEN\_HEIGHT\ =\ 600;}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ FPS\ =\ 60;\ \textcolor{comment}{//\ Frames\ por\ segundo}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{classGame}{Game}}();}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classGame}{\string~Game}}();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ run();\ \textcolor{comment}{//\ Inicia\ o\ loop\ principal\ do\ jogo}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Getters}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ getScore()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ score;\ \}\ \textcolor{comment}{//\ Retorna\ a\ pontuação\ atual}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ getHighScore()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ highScore;\ \}\ \textcolor{comment}{//\ Retorna\ a\ melhor\ pontuação}}
+\DoxyCodeLine{00059\ \ \ \ \ GameState\ getCurrentState()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ currentState;\ \}\ \textcolor{comment}{//\ Retorna\ o\ estado\ atual\ do\ jogo}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ getScreenWidth()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ SCREEN\_WIDTH;\ \}\ \textcolor{comment}{//\ Retorna\ a\ largura\ da\ tela}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ getScreenHeight()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ SCREEN\_HEIGHT;\ \}\ \textcolor{comment}{//\ Retorna\ a\ altura\ da\ tela}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ State\ management}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ changeState(GameState\ newState);\ \textcolor{comment}{//\ Altera\ o\ estado\ do\ jogo}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//\ Inicialiação}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{bool}\ initAllegro();\ \textcolor{comment}{//\ Inicializa\ o\ Allegro\ e\ seus\ componentes}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ initFonts();\ \textcolor{comment}{//\ Inicializa\ as\ fontes}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ initGameObjects();\ \textcolor{comment}{//\ Inicializa\ os\ objetos\ do\ jogo\ (pássaro,\ pipes,\ etc.)}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{comment}{//\ Loop\ principal\ do\ jogo}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ processEvents();\ \textcolor{comment}{//\ Processa\ eventos\ do\ Allegro}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ processInput();\ \textcolor{comment}{//\ Processa\ entrada\ do\ usuário\ (teclado,\ mouse)}}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ update();\ \textcolor{comment}{//\ Atualiza\ o\ estado\ do\ jogo\ (movimentação,\ colisões,\ etc.)}}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ render();\ \textcolor{comment}{//\ Renderiza\ os\ objetos\ na\ tela}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{//\ Entrada\ do\ usuário}}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{void}\ handleMenuInput();\ \textcolor{comment}{//\ Processa\ entrada\ no\ menu}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ handleGameInput();\ \textcolor{comment}{//\ Processa\ entrada\ durante\ o\ jogo}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ handleGameOverInput();\ \textcolor{comment}{//\ Processa\ entrada\ na\ tela\ de\ game\ over}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{void}\ handlePauseInput();\ \textcolor{comment}{//\ Processa\ entrada\ durante\ a\ pausa}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{comment}{//\ Atualização\ de\ telas}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ updateMenu();\ \textcolor{comment}{//\ Atualiza\ o\ menu}}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePlaying();\ \textcolor{comment}{//\ Atualiza\ o\ estado\ de\ jogo\ em\ andamento}}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ updateGameOver();\ \textcolor{comment}{//\ Atualiza\ o\ estado\ de\ game\ over}}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePaused();\ \textcolor{comment}{//\ Atualiza\ o\ estado\ de\ pausa}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{comment}{//\ Renderização\ de\ telas}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ renderMenu();\ \textcolor{comment}{//\ Renderiza\ o\ menu}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ renderPlaying();\ \textcolor{comment}{//\ Renderiza\ o\ jogo\ em\ andamento}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ renderGameOver();\ \textcolor{comment}{//\ Renderiza\ a\ tela\ de\ game\ over}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{void}\ renderPaused();\ \textcolor{comment}{//\ Renderiza\ a\ tela\ de\ pausa}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{//\ Lógica\ do\ jogo}}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ spawnPipe();\ \textcolor{comment}{//\ Gera\ um\ novo\ pipe}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ updatePipes();\ \textcolor{comment}{//\ Atualiza\ a\ posição\ dos\ pipes}}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ removePipes();\ \textcolor{comment}{//\ Remove\ pipes\ fora\ da\ tela}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{void}\ checkCollisions();\ \textcolor{comment}{//\ Verifica\ colisões\ entre\ o\ pássaro\ e\ os\ pipes}}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{void}\ calculateScore();\ \textcolor{comment}{//\ Calcula\ a\ pontuação\ do\ jogador}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{void}\ checkGameOver();\ \textcolor{comment}{//\ Verifica\ se\ o\ jogo\ acabou}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ resetGame();\ \textcolor{comment}{//\ Reseta\ o\ jogo\ para\ o\ estado\ inicial}}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ updateHighScore();\ \textcolor{comment}{//\ Salva\ a\ melhor\ pontuação\ em\ um\ arquivo}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{comment}{//\ Renderização}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{void}\ renderScore();\ \textcolor{comment}{//\ Renderiza\ a\ pontuação\ na\ tela}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ renderBackground();\ \textcolor{comment}{//\ Renderiza\ o\ fundo\ do\ jogo}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ renderUI();\ \textcolor{comment}{//\ Renderiza\ a\ interface\ do\ usuário}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{comment}{//\ Funções\ auxiliares}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ centerText(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text,\ \textcolor{keywordtype}{float}\ y);\ \textcolor{comment}{//\ Centraliza\ o\ texto\ na\ tela}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{bool}\ isKeyPressed(\textcolor{keywordtype}{int}\ keycode);\ \textcolor{comment}{//\ Verifica\ se\ uma\ tecla\ está\ pressionada}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{bool}\ isKeyJustPressed(\textcolor{keywordtype}{int}\ keycode);\ \textcolor{comment}{//\ Verifica\ se\ uma\ tecla\ foi\ pressionada\ apenas\ uma\ vez}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanup();\ \textcolor{comment}{//\ Limpa\ todos\ os\ recursos\ alocados\ pelo\ jogo}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanupAllegro();\ \textcolor{comment}{//\ Limpa\ os\ componentes\ do\ Allegro}}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{void}\ cleanupGameObjects();\ \textcolor{comment}{//\ Limpa\ os\ objetos\ do\ jogo}}
+\DoxyCodeLine{00119\ \};}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

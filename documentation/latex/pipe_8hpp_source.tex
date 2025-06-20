@@ -1,0 +1,44 @@
+\doxysection{pipe.\+hpp}
+\hypertarget{pipe_8hpp_source}{}\label{pipe_8hpp_source}\index{include/pipe.hpp@{include/pipe.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PIPE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PIPE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <allegro5/allegro.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_image.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}bird.hpp"{}}\ \textcolor{comment}{//\ A\ gente\ precisa\ "{}conhecer"{}\ o\ Bird\ pra\ checar\ a\ colisão\ com\ ele}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPipe}{Pipe}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ Construtor\ -\/>\ A\ função\ que\ "{}cria"{}\ o\ cano,\ chamada\ com\ 'new\ Pipe()'}}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classPipe}{Pipe}}(\textcolor{keywordtype}{float}\ startX,\ \textcolor{keywordtype}{float}\ gapCenterY);}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{comment}{//\ Destrutor\ -\/>\ chamado\ quando\ a\ gente\ usa\ 'delete'\ no\ cano,\ pra\ limpar\ a\ memória}}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classPipe}{\string~Pipe}}();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ Funções\ que\ a\ gente\ vai\ chamar\ a\ cada\ "{}tick"{}\ do\ jogo\ no\ loop\ principal}}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ update(\textcolor{keywordtype}{float}\ deltaTime);\ \textcolor{comment}{//\ 'deltaTime'\ ajuda\ a\ manter\ o\ movimento\ suave}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ draw();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Desenha\ o\ cano\ na\ tela}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//\ Funções\ relacionadas\ a\ jogabilidade\ em\ si\ }}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ checkCollision(\mbox{\hyperlink{classBird}{Bird}}*\ bird);\ \textcolor{comment}{//\ Retorna\ 'true'\ se\ o\ pássaro\ bateu}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ isPassed(\mbox{\hyperlink{classBird}{Bird}}*\ bird);\ \ \ \ \ \ \ \textcolor{comment}{//\ Retorna\ 'true'\ se\ o\ pássaro\ passou\ pelo\ cano\ (pra\ gente\ marcar\ ponto)}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ Funções\ "{}getter"{}\ pra\ pegar\ infos\ do\ cano.}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\ Úteis\ pra\ gente\ saber\ quando\ apagar\ o\ cano\ se\ ele\ sair\ da\ tela.}}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{float}\ getX();}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{float}\ getWidth();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{float}\ x;\ \ \ \ \ \ \textcolor{comment}{//\ Posição\ horizontal\ (eixo\ X)\ do\ cano}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{float}\ gapY;\ \ \ \textcolor{comment}{//\ Posição\ vertical\ (eixo\ Y)\ do\ CENTRO\ do\ buraco\ entre\ os\ canos}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{float}\ speed;\ \ \textcolor{comment}{//\ Velocidade\ que\ o\ cano\ se\ move\ pra\ esquerda}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ passed;\ \ \textcolor{comment}{//\ Flag\ pra\ não\ contar\ o\ mesmo\ ponto\ duas\ vezes}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ ALLEGRO\_BITMAP*\ pipe\_img;\ \textcolor{comment}{//Procurar\ imagem\ do\ cano}}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

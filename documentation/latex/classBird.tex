@@ -1,0 +1,116 @@
+\doxysection{Bird Class Reference}
+\hypertarget{classBird}{}\label{classBird}\index{Bird@{Bird}}
+
+
+Inheritance diagram for Bird\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classBird__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Bird\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=157pt]{classBird__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classBird_a7e5bbf918d3f2a9817c4b8184c2e360e}\label{classBird_a7e5bbf918d3f2a9817c4b8184c2e360e} 
+{\bfseries Bird} (float startX, float startY)
+\item 
+\Hypertarget{classBird_aaf8f7cdda8f072ee9d2643da8dc71ad6}\label{classBird_aaf8f7cdda8f072ee9d2643da8dc71ad6} 
+void {\bfseries jump} ()
+\item 
+void \mbox{\hyperlink{classBird_ae295f7338e168cd216a569d07866743c}{update}} () override
+\item 
+\Hypertarget{classBird_a657091af53a846f66274b70281e55b5c}\label{classBird_a657091af53a846f66274b70281e55b5c} 
+void {\bfseries render} () override
+\item 
+bool \mbox{\hyperlink{classBird_a8c925abe969ac2c361c975872a5a71a9}{is\+Colliding}} (const \mbox{\hyperlink{classGameObject}{Game\+Object}} \&other) override
+\item 
+\Hypertarget{classBird_afedd82b79f6f81f8d1b6ca0587524830}\label{classBird_afedd82b79f6f81f8d1b6ca0587524830} 
+int {\bfseries get\+Width} () const
+\item 
+\Hypertarget{classBird_ae08b6a4a81745d86fd78a85c40e5df0c}\label{classBird_ae08b6a4a81745d86fd78a85c40e5df0c} 
+int {\bfseries get\+Height} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classGameObject}{Game\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Game\+Object} (float x, float y, float width, float height)
+\item 
+virtual void {\bfseries draw} ()=0
+\item 
+virtual bool {\bfseries is\+Off\+Screen} ()
+\item 
+virtual void {\bfseries move} ()
+\item 
+float {\bfseries getX} () const
+\item 
+float {\bfseries getY} () const
+\item 
+float {\bfseries get\+Width} () const
+\item 
+float {\bfseries get\+Height} () const
+\item 
+float {\bfseries get\+SpeedX} () const
+\item 
+float {\bfseries get\+SpeedY} () const
+\item 
+void {\bfseries set\+Position} (float newX, float newY)
+\item 
+void {\bfseries set\+Speed} (float new\+SpeedX, float new\+SpeedY)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classGameObject}{Game\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+float {\bfseries x}
+\item 
+float {\bfseries y}
+\item 
+float {\bfseries width}
+\item 
+float {\bfseries height}
+\item 
+float {\bfseries speedX}
+\item 
+float {\bfseries speedY}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBird_a8c925abe969ac2c361c975872a5a71a9}\label{classBird_a8c925abe969ac2c361c975872a5a71a9} 
+\index{Bird@{Bird}!isColliding@{isColliding}}
+\index{isColliding@{isColliding}!Bird@{Bird}}
+\doxysubsubsection{\texorpdfstring{isColliding()}{isColliding()}}
+{\footnotesize\ttfamily bool Bird\+::is\+Colliding (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classGameObject}{Game\+Object}} \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classGameObject}{Game\+Object}}.
+
+\Hypertarget{classBird_ae295f7338e168cd216a569d07866743c}\label{classBird_ae295f7338e168cd216a569d07866743c} 
+\index{Bird@{Bird}!update@{update}}
+\index{update@{update}!Bird@{Bird}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Bird\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classGameObject}{Game\+Object}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/bird.\+hpp\item 
+src/bird.\+cpp\end{DoxyCompactItemize}

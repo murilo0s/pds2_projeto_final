@@ -1,4 +1,4 @@
-#include "Pipe.h"
+#include "pipe.hpp"
 #include <iostream>
 
 // Algumas constantes pra facilitar a vida e não usar "números mágicos" no código

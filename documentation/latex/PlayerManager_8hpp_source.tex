@@ -1,0 +1,31 @@
+\doxysection{Player\+Manager.\+hpp}
+\hypertarget{PlayerManager_8hpp_source}{}\label{PlayerManager_8hpp_source}\index{include/PlayerManager.hpp@{include/PlayerManager.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PLAYERMANAGER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PLAYERMANAGER\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Player_8hpp}{Player.hpp}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classPlayerManager}{PlayerManager}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00012\ \ \ \ \ std::vector<Player>\ jogadores;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{void}\ cadastrar(\textcolor{keywordtype}{string}\ \_nome,\ \textcolor{keywordtype}{string}\ \_apelido);\textcolor{comment}{//cadastro\ de\ um\ jogador}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ remover\_cadastro(\textcolor{keywordtype}{string}\ \_apelido);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ salvar();\textcolor{comment}{//salvando\ em\ um\ arquivo}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ carregar(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ nomeArquivo);\textcolor{comment}{//carregando\ arquivo}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ ordenarRanking();\textcolor{comment}{//}}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{classPlayer}{Player}}\ getMelhorJogador()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ exibir();}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Player>\&\ getJogadores()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}
