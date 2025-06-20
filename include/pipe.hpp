@@ -5,7 +5,7 @@
 #include <allegro5/allegro_image.h>
 #include "bird.hpp" // A gente precisa "conhecer" o Bird pra checar a colisão com ele
 
-class Pipe {
+class Pipe : public GameObject{ // herdar de GameObject 
 public:
     // Construtor -> A função que "cria" o cano, chamada com 'new Pipe()'
     Pipe(float startX, float gapCenterY);
