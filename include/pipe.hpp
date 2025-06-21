@@ -1,38 +1,68 @@
 #ifndef PIPE_H
 #define PIPE_H
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include "bird.hpp" // A gente precisa "conhecer" o Bird pra checar a colisão com ele
+#include "GameObject.hpp"
+#include "bird.hpp"
 
-class Pipe {
+// A classe Pipe herda metodos da classe GameObject
+/**
+ * @brief Classe que representa os canos que serão usados como obstáculo para o pássaro.
+ * 
+ * O cano é desenhado na tela e se move da direita para a esquerda.
+ * Também detecta colisões com o pássaro e informa se o pássaro já passou.
+ */
+class Pipe : public GameObject {
 public:
-    // Construtor -> A função que "cria" o cano, chamada com 'new Pipe()'
+    // construtor e destrutor
+    /**
+     * @brief Construtor da classe Pipe.
+     * 
+     * @param startX Posição X inicial do cano.
+     * @param gapCenterY Posição Y central do buraco entre os canos.
+     */
     Pipe(float startX, float gapCenterY);
-
-    // Destrutor -> chamado quando a gente usa 'delete' no cano, pra limpar a memória
+    /**
+     * @brief Destrutor da classe Pipe.
+     * 
+     * Libera a memória alocada para a imagem do cano.
+     */
     ~Pipe();
+    
+    /**
+     * @brief Atualiza a posição do cano conforme o tempo vai passando
+     * 
+     * @param deltaTime Tempo percorrido desde a última atualização (em segundos).
+     * 
+     */ 
+    void update() override;
+    /**
+     * @brief Desenha o cano na tela.
+     */
+    void draw() override;
+    /**
+     * @brief Verifica se o cano colidiu com o objeto 
+     * 
+     * @param other verifica qual é o objeto que colidiu com o cano.
+     * @return true se o cano colidiu com o objeto.
+     * @return false se o cano não colidiu com o objeto.
+     */
+    bool isColliding(const GameObject& other) override;
 
-    // Funções que a gente vai chamar a cada "tick" do jogo no loop principal
-    void update(float deltaTime); // 'deltaTime' ajuda a manter o movimento suave
-    void draw();                  // Desenha o cano na tela
-
-    // Funções relacionadas a jogabilidade em si 
-    bool checkCollision(Bird* bird); // Retorna 'true' se o pássaro bateu
-    bool isPassed(Bird* bird);       // Retorna 'true' se o pássaro passou pelo cano (pra gente marcar ponto)
-
-    // Funções "getter" pra pegar infos do cano.
-    // Úteis pra gente saber quando apagar o cano se ele sair da tela.
-    float getX();
-    float getWidth();
+    /**
+     * @brief Verifica se o pássaro já passou pelo cano.
+     * usa a variavel passed para saber se o pássaro já passou pelo cano.
+     * 
+     * @param bird verifica se o pássaro já passou pelo cano.
+     * @return true se o pássaro já passou pelo cano.
+     * @return false se o pássaro não passou pelo cano.
+     */
+    bool isPassed(const Bird& bird);
 
 private:
-    float x;      // Posição horizontal (eixo X) do cano
-    float gapY;   // Posição vertical (eixo Y) do CENTRO do buraco entre os canos
-    float speed;  // Velocidade que o cano se move pra esquerda
-    bool passed;  // Flag pra não contar o mesmo ponto duas vezes
-
-    ALLEGRO_BITMAP* pipe_img; //Procurar imagem do cano
+    
+    float gapY;       ///< essa variavel armazena o espaço (onde o passaro passa) entre os canos de cima e de baixo 
+    bool passed;      ///< garante que o jogador ganhe pontos por passar do cano apenas uma vez
+    ALLEGRO_BITMAP* pipe_img; ///< ponteiro que guarda o endereço da imagem do cano
 };
 
 #endif
