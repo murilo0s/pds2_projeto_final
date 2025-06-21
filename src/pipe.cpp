@@ -1,11 +1,13 @@
 #include "pipe.hpp"
 #include "exceptions.hpp"
 #include <iostream>
+#include <stdexcept>
 
-// Algumas constantes pra facilitar a vida e não usar "números mágicos" no código
-const float PIPE_SPEED = 180.0f; // Velocidade dos canos em pixels por segundo
-const float GAP_HEIGHT = 200.0f; // Tamanho da abertura entre o cano de cima e o de baixo
+// Constantes para os canos
+const float PIPE_SPEED = 180.0f; // define velocidade de movimento dos canos
+const float GAP_HEIGHT = 200.0f; // define o tamanho do vão entre os canos
 
+<<<<<<< HEAD
 // O Construtor é chamado quando fazemos: new Pipe(...)
 // GameObject::GameObject(float x, float y, float width, float height)
 //  : x(x), y(y), width(width), height(height), speedX(0), speedY(0) {}
@@ -21,19 +23,46 @@ Pipe::Pipe(float _posicao_x, float _posicao_y, float width, float height, ALLEGR
     if (!pipe_img)
     {
         throw erroCarregaPipe;
+=======
+// chama o construtor de gameObject com os valores zerados pois não sabemos as dimensões do cano
+Pipe::Pipe(float startX, float gapCenterY) : GameObject(0, 0, 0, 0) {
+    // Tenta carregar a imagem do cano do arquivo "pipe.png".
+    pipe_img = al_load_bitmap("pipe.png");
+    
+    // Verifica se a imagem foi carregada
+    if(!pipe.img) {
+	// carrega uma msg de erro
+	throw std::runtime_error("Não foi possível carregar a imagem do cano");
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
     }
+    // se a imagem carregou, o codigo continua normalmente e carrega as dimensões da imagem
+    this->width = al_get_bitmap_width(pipe_img);
+    this->height = al_get_bitmap_height(pipe_img);
+
+    // Agora inicializa o resto das variáveis
+    this->x = startX;
+    this->gapY = gapCenterY;
+    this->passed = false;
+    this->setSpeed(PIPE_SPEED, 0); // Define a velocidade de movimento horizontal
 }
 
+<<<<<<< HEAD
 // O Destrutor é chamado quando fazemos: delete pipe;
 Pipe::~Pipe()
 {
     // Se a imagem do cano foi carregada, temos que destruir ela pra não vazar memória.
     if (pipe_img)
     {
+=======
+Pipe::~Pipe() {
+    // Libera a memória da imagem se ela foi carregada
+    if (pipe_img) {
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
         al_destroy_bitmap(pipe_img);
     }
 }
 
+<<<<<<< HEAD
 // Atualiza a posição do cano a cada frame
 void Pipe::update(float deltaTime)
 {
@@ -73,11 +102,37 @@ void Pipe::draw()
 bool Pipe::checkCollision(Bird *bird)
 {
     // Vamos pegar as recem descobertas (por mim) "bounding boxes" (caixas de colisão retangulares) de tudo
+=======
+void Pipe::update() {
+    // Move o cano para a esquerda usando a velocidade definida no GameObject
+    this->x -= this->speedX;
+}
+
+void Pipe::draw() {
+    if (!pipe_img) return;
+
+    // Cano de baixo
+    float lower_pipe_y = gapY + (GAP_HEIGHT / 2);
+    al_draw_bitmap(pipe_img, this->x, lower_pipe_y, 0);
+
+    // Cano de cima (rotacionado)
+    float upper_pipe_y = gapY - (GAP_HEIGHT / 2);
+    al_draw_rotated_bitmap(pipe_img, this->width / 2, this->height / 2, this->x + this->width / 2, upper_pipe_y - this->height / 2, 3.14159f, 0); // quero mudar essa parte aqui (quero usar duas imagens, não rotacionar)
+}
+
+// verifica se o cano colidiu com o objeto
+bool Pipe::isColliding(const GameObject& other) {
+    // assume que other é sempre bird pq a logica de colisão é controlada por Game
+    const Bird* bird = static_cast<const Bird*>(&other);
+
+    // pega as dimensões do pássaro
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
     float bird_x = bird->getX();
     float bird_y = bird->getY();
     float bird_w = bird->getWidth();
     float bird_h = bird->getHeight();
 
+<<<<<<< HEAD
     float pipe_w = getWidth();
     float pipe_h = al_get_bitmap_height(pipe_img);
 
@@ -88,25 +143,26 @@ bool Pipe::checkCollision(Bird *bird)
     // Caixa de colisão do cano de cima (aqui o Y é a parte de cima da imagem)
     float upper_pipe_x = posicao_x;
     float upper_pipe_y = posicao_y - (GAP_HEIGHT / 2) - pipe_h;
+=======
+    // pega as dimensões do cano de baixo
+    float lower_pipe_x = this->x;
+    float lower_pipe_y = gapY + (GAP_HEIGHT / 2);
+    
+    // pega as dimensões do cano de cima
+    float upper_pipe_x = this->x;
+    float upper_pipe_y = gapY - (GAP_HEIGHT / 2) - this->height;
 
-    // Teste de colisão AABB (Caixa Delimitadora Alinhada aos Eixos)
-    // Retorna true se a caixa do pássaro sobrepõe a caixa de QUALQUER um dos canos
+    bool hit_lower = (bird_x + bird_w > lower_pipe_x && bird_x < lower_pipe_x + this->width &&
+                      bird_y + bird_h > lower_pipe_y && bird_y < lower_pipe_y + this->height);
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
 
-    // Colidiu com o cano de baixo?
-    bool hit_lower = (bird_x + bird_w > lower_pipe_x && // Lado direito do pássaro > lado esquerdo do cano
-                      bird_x < lower_pipe_x + pipe_w && // Lado esquerdo do pássaro < lado direito do cano
-                      bird_y + bird_h > lower_pipe_y && // Base do pássaro > topo do cano
-                      bird_y < lower_pipe_y + pipe_h);  // Topo do pássaro < base do cano
-
-    // Colidiu com o cano de cima?
-    bool hit_upper = (bird_x + bird_w > upper_pipe_x &&
-                      bird_x < upper_pipe_x + pipe_w &&
-                      bird_y < upper_pipe_y + pipe_h && // Topo do pássaro < base do cano
-                      bird_y + bird_h > upper_pipe_y);  // Base do pássaro > topo do cano
+    bool hit_upper = (bird_x + bird_w > upper_pipe_x && bird_x < upper_pipe_x + this->width &&
+                      bird_y < upper_pipe_y + this->height && bird_y + bird_h > upper_pipe_y);
 
     return hit_lower || hit_upper;
 }
 
+<<<<<<< HEAD
 // Verifica se o pássaro passou pra marcar ponto
 bool Pipe::isPassed(Bird *bird)
 {
@@ -121,7 +177,33 @@ bool Pipe::isPassed(Bird *bird)
     {
         passed = true; // Marca como passado pra não pontuar de novo
         return true;   // Retorna true SÓ na primeira vez que passa
+=======
+// verifica se o cano foi passado pelo pássaro
+bool Pipe::isPassed(const Bird& bird) {
+    if (passed) {
+        return false;
     }
-
+    // O ponto é marcado quando a frente do pássaro passa pelo final do cano
+    if (bird.getX() > this->x + this->width) {
+        passed = true;
+        return true;
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
+    }
     return false;
+<<<<<<< HEAD
+=======
+}
+
+// retorna a posição x do cano
+float Pipe::getX() {
+    return x;
+}
+
+// retorna a largura do cano
+float Pipe::getWidth() {
+    if (pipe_img) {
+        return al_get_bitmap_width(pipe_img);
+    }
+    return 0; // Se não tiver imagem, largura é 0
+>>>>>>> fd1661439e36e26bc89fb1ad0b1137b93240710d
 }
