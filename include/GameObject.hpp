@@ -5,7 +5,7 @@
 // Classe base para todos os objetos do jogo
 class GameObject {
 protected:
-    float x, y; // Posição do objeto no espaço (coordenadas)
+    float posicao_x, posicao_y; // Posição do objeto no espaço (coordenadas)
     float width, height; // Dimensões do objeto (largura e altura)
     float speedX, speedY; // Velocidade do objeto nos eixos X e Y
 
@@ -23,18 +23,15 @@ public:
 
     // Métodos de implementação (podem ser sobrescritos)
     virtual bool isOffScreen(); // Verifica se o objeto saiu da tela
-    virtual void move() { // Move o objeto de acordo com sua velocidade
-        x += speedX;
-        y += speedY;
-    }
+    virtual void move(); // Move o objeto de acordo com sua velocidade
 
     // Getters (acessam atributos privados/protegidos)
-    float getX() const { return x; } // Retorna posição X
-    float getY() const { return y; } // Retorna posição Y
-    float getWidth() const { return width; } // Retorna largura
-    float getHeight() const { return height; } // Retorna altura
-    float getSpeedX() const { return speedX; } // Retorna velocidade X
-    float getSpeedY() const { return speedY; } // Retorna velocidade Y
+    float getX(); // Retorna posição X
+    float getY(); // Retorna posição Y
+    float getWidth(); // Retorna largura
+    float getHeight(); // Retorna altura
+    float getSpeedX(); // Retorna velocidade X
+    float getSpeedY(); // Retorna velocidade Y
 
     // Setters (modificam atributos)
     void setPosition(float newX, float newY); // Define nova posição
