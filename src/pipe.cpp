@@ -12,7 +12,7 @@ Pipe::Pipe(float startX, float gapCenterY) : GameObject(0, 0, 0, 0) {
     pipe_img = al_load_bitmap("pipe.png");
     
     // Verifica se a imagem foi carregada
-    if(!pipe.img) {
+    if(!pipe_img) {
 	// carrega uma msg de erro
 	throw std::runtime_error("Não foi possível carregar a imagem do cano");
     }
@@ -34,12 +34,12 @@ Pipe::~Pipe() {
     }
 }
 
-void Pipe::update() {
+void Pipe::update(float deltaTime) {
     // Move o cano para a esquerda usando a velocidade definida no GameObject
-    this->x -= this->speedX;
+    this->x -= this->speedX * deltaTime;
 }
 
-void Pipe::draw() {
+void Pipe::render() {
     if (!pipe_img) return;
 
     // Cano de baixo
@@ -52,7 +52,7 @@ void Pipe::draw() {
 }
 
 // verifica se o cano colidiu com o objeto
-bool Pipe::isColliding(const GameObject& other) {
+bool Pipe::checkCollision(const GameObject& other) {
     // assume que other é sempre bird pq a logica de colisão é controlada por Game
     const Bird* bird = static_cast<const Bird*>(&other);
 

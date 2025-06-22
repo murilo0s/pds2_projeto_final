@@ -34,11 +34,11 @@ public:
      * @param deltaTime Tempo percorrido desde a última atualização (em segundos).
      * 
      */ 
-    void update() override;
+    void update(float deltaTime) override;
     /**
      * @brief Desenha o cano na tela.
      */
-    void draw() override;
+    void render() override;
     /**
      * @brief Verifica se o cano colidiu com o objeto 
      * 
@@ -46,7 +46,7 @@ public:
      * @return true se o cano colidiu com o objeto.
      * @return false se o cano não colidiu com o objeto.
      */
-    bool isColliding(const GameObject& other) override;
+    bool checkCollision(const GameObject& other) override;
 
     /**
      * @brief Verifica se o pássaro já passou pelo cano.
