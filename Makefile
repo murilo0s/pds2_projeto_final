@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -Wall -std=c++17 -Iinclude
-LDFLAGS = -lallegro -lallegro_image -lallegro_font -lallegro_ttf -lallegro_primitives
+CXXFLAGS = -Wall -std=c++17 -Iinclude $(shell pkg-config --cflags allegro-5 allegro_font-5 allegro_ttf-5 allegro_image-5 allegro_primitives-5)
+LDFLAGS = $(shell pkg-config --libs allegro-5 allegro_font-5 allegro_ttf-5 allegro_image-5 allegro_primitives-5)
 
 SRC_DIR = src
 OBJ_DIR = obj
