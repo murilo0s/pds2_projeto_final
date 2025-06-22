@@ -1,120 +1,354 @@
 #ifndef GAME_HPP
 #define GAME_HPP
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <vector>
-#include <memory>
 
+
+// classes auxiliares que permitem acesso aos objetos do jogo (ponteiros/referências)
 class Bird;
 class Pipe;
 class PlayerManager;
+class GameRenderer;
+class GameLogic;
 
+/**
+ * @brief Enumeração para os estados do jogo
+ * 
+ * Define os possíveis estados que o jogo pode estar:
+ * - MENU: Tela inicial do jogo
+ * - PLAYING: Jogo em andamento
+ * - GAME_OVER: Tela de fim de jogo
+ */
 enum GameState {
-    MENU,
-    PLAYING,
-    GAME_OVER
+    MENU,       ///< Menu principal do jogo
+    PLAYING,    ///< Jogo em andamento
+    GAME_OVER   ///< Fim de jogo
 };
 
+/**
+ * @brief Classe principal do jogo
+ *
+ * Esta classe é responsável por gerenciar o loop principal do jogo,
+ * os estados do jogo, e os objetos do jogo. Ela coordena as atividades
+ * entre GameRenderer (renderização) e GameLogic (lógica do jogo).
+ *
+ */
 class Game {
 private:
-
-    //Componetes do allegro
-    ALLEGRO_DISPLAY* display; // Janela do jogo
-    ALLEGRO_EVENT_QUEUE* eventQueue; // Fila de eventos
-    ALLEGRO_TIMER* timer; // Temporizador para controle de FPS
-    ALLEGRO_FONT* font; // Fonte para renderização de texto
+    // Componentes Allegro
+    ALLEGRO_DISPLAY* display; ///< janela do jogo
+    ALLEGRO_EVENT_QUEUE* eventQueue; ///< fila para processar eventos (teclado, mouse, etc.)
+    ALLEGRO_TIMER* timer; ///< temporizador que controla o FPS
+    ALLEGRO_FONT* font; ///< fonte para o jogo (para renderizar textos)
 
     // Objetos do jogo
-    std::unique_ptr<Bird> bird; // Pássaro controlado pelo jogador
-    std::vector<std::unique_ptr<Pipe>> pipes; // Pipes que o pássaro deve evitar
-    std::unique_ptr<PlayerManager> playerManager; // Gerenciador de jogadores
+    Bird* bird; ///< ponteiro para o pássaro que o jogador controla
+    std::vector<Pipe*> pipes; ///< vetor de ponteiros para os canos que o pássaro deve passar
+    PlayerManager* playerManager; ///< ponteiro para o gerenciador de jogadores (aqui salva os dados do jogador)
+
+    // Classes auxiliares
+    GameRenderer* renderer; ///< classe responsável por renderizar os objetos do jogo
+    GameLogic* logic; ///< classe responsável por atualizar a lógica do jogo
 
     // Estado do jogo
-    GameState currentState; // Estado atual do jogo
-    int score; // Pontuação do jogador
-    int highScore; // Melhor pontuação registrada
-    bool running; // Flag para controle do loop principal
-    bool keys[ALLEGRO_KEY_MAX]; // Array para controle de teclas pressionadas
+    GameState currentState; ///< Estado atual do jogo
+    int score; ///< pontuação do jogador
+    int highScore; ///< pontuação máxima do jogador
+    bool running; ///< indica se o jogo está em execução
+    bool keys[ALLEGRO_KEY_MAX]; ///< array que verifica se cada tecla foi pressionada
 
     // Controle de tempo
-    double lastPipeSpawn; // Tempo do último pipe gerado
-    double gameStartTime; // Tempo de início do jogo
+    double lastPipeSpawn; ///< tempo da última geração de cano
+    double gameStartTime; ///< tempo de início do jogo
 
     // Dimensões da tela
-    static const int SCREEN_WIDTH = 800;
-    static const int SCREEN_HEIGHT = 600;
-    static const int FPS = 60; // Frames por segundo
+    static const int SCREEN_WIDTH = 800; ///< largura da tela em pixels
+    static const int SCREEN_HEIGHT = 600; ///< altura da tela em pixels
+    static const int FPS = 60; ///< frames por segundo do jogo
+
+    // inicialização
+    /**
+     * @brief Inicializa a biblioteca Allegro
+     * 
+     * Configura todos os componentes necessários:
+     * - Display (janela)
+     * - Event queue (fila de eventos)
+     * - Timer (temporizador)
+     * - Addons (imagem, fonte, TTF)
+     * 
+     * @return true se inicialização foi bem-sucedida, false caso contrário
+     */
+    bool initAllegro();
+    
+    /**
+     * @brief Inicializa as fontes do jogo
+     * 
+     * Carrega a fonte padrão do Allegro para
+     * renderização de textos.
+     * 
+     * @return true se fonte foi carregada, false caso contrário
+     */
+    bool initFonts();
+    
+    /**
+     * @brief Inicializa os objetos do jogo
+     * 
+     * Cria e configura:
+     * - Pássaro (Bird)
+     * - Gerenciador de jogadores (PlayerManager)
+     */
+    void initGameObjects();
+
+    // loop principal
+    
+    /**
+     * @brief Processa eventos do Allegro
+     * 
+     * Captura e processa eventos como:
+     * - Pressionar teclas
+     * - Fechar janela
+     * - Eventos do timer
+     */
+    void processEvents();
+    
+    /**
+     * @brief Processa entrada do usuário
+     * 
+     * Delega o processamento de input para a classe
+     * GameLogic baseado no estado atual do jogo.
+     */
+    void processInput();
+    
+    /**
+     * @brief Atualiza a lógica do jogo
+     * 
+     * Delega a atualização da lógica para a classe
+     * GameLogic, que atualiza posições, verifica
+     * colisões, etc.
+     */
+    void update();
+    
+    /**
+     * @brief Renderiza o jogo
+     * 
+     * Delega a renderização para a classe GameRenderer,
+     * que desenha todos os elementos na tela baseado
+     * no estado atual do jogo.
+     */
+    void render();
+
+    // limpeza
+    
+    /**
+     * @brief Limpa todos os recursos do jogo
+     * 
+     * Chama os métodos de limpeza específicos
+     * para garantir que todos os recursos sejam
+     * liberados corretamente.
+     */
+    void cleanup();
+    
+    /**
+     * @brief Limpa os componentes do Allegro
+     * 
+     * Libera recursos alocados pelo Allegro:
+     * - Display
+     * - Event queue
+     * - Timer
+     * - Fontes
+     */
+    void cleanupAllegro();
+    
+    /**
+     * @brief Limpa os objetos do jogo
+     * 
+     * Libera memória alocada para:
+     * - Pássaro
+     * - Pipes
+     * - PlayerManager
+     * - Classes auxiliares (GameRenderer, GameLogic)
+     */
+    void cleanupGameObjects();
 
 public:
+    /**
+     * @brief Construtor da classe Game
+     *
+     * Inicia todos os componentes do jogo:
+     * - biblioteca Allegro
+     * - fontes
+     * - objetos do jogo (bird, pipes, etc.)
+     * - classes auxiliares (GameRenderer, GameLogic, ...)
+     */
     Game();
+
+    /**
+     * @brief Destrutor da classe Game
+     *
+     * Libera todos os recursos alocados:
+     * - componentes Allegro
+     * - objetos do jogo
+     * - classes auxiliares
+     */
     ~Game();
 
-    void run(); // Inicia o loop principal do jogo
-
-    // Getters
-    int getScore() const { return score; } // Retorna a pontuação atual
-    int getHighScore() const { return highScore; } // Retorna a melhor pontuação
-    GameState getCurrentState() const { return currentState; } // Retorna o estado atual do jogo
-    int getScreenWidth() const { return SCREEN_WIDTH; } // Retorna a largura da tela
-    int getScreenHeight() const { return SCREEN_HEIGHT; } // Retorna a altura da tela
-
-    // State management
-    void changeState(GameState newState); // Altera o estado do jogo
-
-private:
-    // Inicialiação
-    bool initAllegro(); // Inicializa o Allegro e seus componentes
-    bool initFonts(); // Inicializa as fontes
-    void initGameObjects(); // Inicializa os objetos do jogo (pássaro, pipes, etc.)
-
-    // Loop principal do jogo
-    void processEvents(); // Processa eventos do Allegro
-    void processInput(); // Processa entrada do usuário (teclado, mouse)
-    void update(); // Atualiza o estado do jogo (movimentação, colisões, etc.)
-    void render(); // Renderiza os objetos na tela
-
-    // Entrada do usuário
-    void handleMenuInput(); // Processa entrada no menu
-    void handleGameInput(); // Processa entrada durante o jogo
-    void handleGameOverInput(); // Processa entrada na tela de game over
-    void handlePauseInput(); // Processa entrada durante a pausa
-
-    // Atualização de telas
-    void updateMenu(); // Atualiza o menu
-    void updatePlaying(); // Atualiza o estado de jogo em andamento
-    void updateGameOver(); // Atualiza o estado de game over
-    void updatePaused(); // Atualiza o estado de pausa
-
-    // Renderização de telas
-    void renderMenu(); // Renderiza o menu
-    void renderPlaying(); // Renderiza o jogo em andamento
-    void renderGameOver(); // Renderiza a tela de game over
-    void renderPaused(); // Renderiza a tela de pausa
-
-    // Lógica do jogo
-    void spawnPipe(); // Gera um novo pipe
-    void updatePipes(); // Atualiza a posição dos pipes
-    void removePipes(); // Remove pipes fora da tela
-    void checkCollisions(); // Verifica colisões entre o pássaro e os pipes
-    void calculateScore(); // Calcula a pontuação do jogador
-    void checkGameOver(); // Verifica se o jogo acabou
-    void resetGame(); // Reseta o jogo para o estado inicial
-    void updateHighScore(); // Salva a melhor pontuação em um arquivo
-
-    // Renderização
-    void renderScore(); // Renderiza a pontuação na tela
-    void renderBackground(); // Renderiza o fundo do jogo
-    void renderUI(); // Renderiza a interface do usuário
-
-    // Funções auxiliares
-    void centerText(const char* text, float y); // Centraliza o texto na tela
-    bool isKeyPressed(int keycode); // Verifica se uma tecla está pressionada
-    bool isKeyJustPressed(int keycode); // Verifica se uma tecla foi pressionada apenas uma vez
-
-    void cleanup(); // Limpa todos os recursos alocados pelo jogo
-    void cleanupAllegro(); // Limpa os componentes do Allegro
-    void cleanupGameObjects(); // Limpa os objetos do jogo
+    /**
+     * @brief Método principal que executa o jogo
+     *
+     * Contém o loop principal do jogo que:
+     * - processa eventos (teclado, mouse)
+     * - atualiza a lógica do jogo
+     * - renderiza os elementos na tela
+     * - controla o FPS
+     */
+    void run();
+    
+    /**
+     * @brief Retorna a pontuação atual do jogador
+     * @return Pontuação atual do jogador
+     */
+    int getScore() const { return score; }
+    
+    /**
+     * @brief Retorna a melhor pontuação registrada
+     * @return Melhor pontuação do jogador
+     */
+    int getHighScore() const { return highScore; }
+    
+    /**
+     * @brief Retorna o estado atual do jogo
+     * @return Estado atual (MENU, PLAYING, GAME_OVER)
+     */
+    GameState getCurrentState() const { return currentState; }
+    
+    /**
+     * @brief Retorna a largura da tela
+     * @return Largura da tela em pixels
+     */
+    int getScreenWidth() const { return SCREEN_WIDTH; }
+    
+    /**
+     * @brief Retorna a altura da tela
+     * @return Altura da tela em pixels
+     */
+    int getScreenHeight() const { return SCREEN_HEIGHT; }
+    
+    /**
+     * @brief Retorna o FPS do jogo
+     * @return Frames por segundo configurados
+     */
+    int getFPS() const { return FPS; }
+    
+    // setters básicos
+    
+    /**
+     * @brief Define a pontuação do jogador
+     * @param newScore Nova pontuação do jogador
+     */
+    void setScore(int newScore) { score = newScore; }
+    
+    /**
+     * @brief Define a melhor pontuação registrada
+     * @param newHighScore Nova melhor pontuação
+     */
+    void setHighScore(int newHighScore) { highScore = newHighScore; }
+    
+    /**
+     * @brief Define o estado atual do jogo
+     * @param newState Novo estado do jogo
+     */
+    void setCurrentState(GameState newState) { currentState = newState; }
+    
+    /**
+     * @brief Define se o jogo está em execução
+     * @param isRunning true se o jogo deve continuar rodando, false para parar
+     */
+    void setRunning(bool isRunning) { running = isRunning; }
+    
+    // getters para objetos do jogo
+    
+    /**
+     * @brief Retorna o ponteiro para o pássaro
+     * 
+     * Usado pelas classes GameLogic e GameRenderer para acessar
+     * e modificar o pássaro do jogo.
+     * 
+     * @return Ponteiro para o objeto Bird
+     */
+    Bird* getBird() const { return bird; }
+    
+    /**
+     * @brief Retorna a lista de pipes do jogo
+     * 
+     * Retorna uma referência para o vetor de pipes, permitindo
+     * que GameLogic adicione, remova ou modifique pipes.
+     * 
+     * @return Referência para o vetor de pipes
+     */
+    std::vector<Pipe*>& getPipes() { return pipes; }
+    
+    /**
+     * @brief Retorna o gerenciador de jogadores
+     * @return Ponteiro para o PlayerManager
+     */
+    PlayerManager* getPlayerManager() const { return playerManager; }
+    
+    // getters para componentes allegro
+    
+    /**
+     * @brief Retorna a janela do jogo
+     * 
+     * Usado pelo GameRenderer para acessar a janela
+     * e realizar operações de renderização.
+     * 
+     * @return Ponteiro para a janela do jogo
+     */
+    ALLEGRO_DISPLAY* getDisplay() const { return display; }
+    
+    /**
+     * @brief Retorna a fonte do jogo
+     * 
+     * Usado pelo GameRenderer para renderizar textos
+     * na tela.
+     * 
+     * @return Ponteiro para a fonte do jogo
+     */
+    ALLEGRO_FONT* getFont() const { return font; }
+    
+    // controle de tempo
+    
+    /**
+     * @brief Retorna o tempo da última geração de pipe
+     * @return Tempo da última geração de pipe
+     */
+    double getLastPipeSpawn() const { return lastPipeSpawn; }
+    
+    /**
+     * @brief Define o tempo da última geração de pipe
+     * @param time Novo tempo da última geração
+     */
+    void setLastPipeSpawn(double time) { lastPipeSpawn = time; }
+    
+    /**
+     * @brief Retorna o tempo de início do jogo
+     * @return Tempo quando o jogo foi iniciado
+     */
+    double getGameStartTime() const { return gameStartTime; }
+    
+    // getters para input
+    
+    /**
+     * @brief Retorna o array de estado das teclas
+     * 
+     * Usado pelo GameLogic para verificar quais teclas
+     * estão pressionadas.
+     * 
+     * @return Ponteiro para o array de teclas
+     */
+    bool* getKeys() { return keys; }
 };
 #endif 
