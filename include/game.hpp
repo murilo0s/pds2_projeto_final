@@ -22,11 +22,13 @@ class GameLogic;
  * - MENU: Tela inicial do jogo
  * - PLAYING: Jogo em andamento
  * - GAME_OVER: Tela de fim de jogo
+ * - GAME_EXIT: Saída do jogo
  */
 enum GameState {
     MENU,       ///< Menu principal do jogo
     PLAYING,    ///< Jogo em andamento
-    GAME_OVER   ///< Fim de jogo
+    GAME_OVER,  ///< Fim de jogo
+    GAME_EXIT   ///< Saída do jogo
 };
 
 /**
@@ -102,6 +104,14 @@ private:
      * - Gerenciador de jogadores (PlayerManager)
      */
     void initGameObjects();
+
+    /**
+     * @brief Carrega a melhor pontuação do arquivo
+     * 
+     * Lê o arquivo "highscore.txt" e carrega
+     * a melhor pontuação registrada.
+     */
+    void loadHighScore();
 
     // loop principal
     
@@ -290,6 +300,7 @@ public:
      * @return Referência para o vetor de pipes
      */
     std::vector<Pipe*>& getPipes() { return pipes; }
+    const std::vector<Pipe*>& getPipes() const { return pipes; }
     
     /**
      * @brief Retorna o gerenciador de jogadores
