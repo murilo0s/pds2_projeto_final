@@ -2,7 +2,7 @@
 #include <iostream>
 #include <allegro5/allegro_image.h>
 
-Bird::Bird(float startX, float startY): GameObject(startX, startY),
+Bird::Bird(float startX, float startY): GameObject(startX, startY, 0, 0),
       speedY(0.0f),
       gravity(-0.5f),
       jumpStrength(10.0f),
@@ -31,9 +31,9 @@ void Bird::jump() {
     speedY = jumpStrength; // Define a velocidade vertical para o valor do pulo
 }
 
-void Bird::update() {
-    speedY += gravity; // Aplica a gravidade à velocidade vertical
-    y += speedY; // Atualiza a posição vertical do pássaro
+void Bird::update(float deltaTime) {
+    speedY += gravity * deltaTime; // Aplica a gravidade à velocidade vertical
+    y += speedY * deltaTime; // Atualiza a posição vertical do pássaro
 }
 
 void Bird::render() {
@@ -42,11 +42,11 @@ void Bird::render() {
     }
 }
 
-bool Bird::isColliding(const GameObject& other) {
+bool Bird::checkCollision(const GameObject& other) {
     /*Esta implementação de colisão é genérica. A lógica de verificação
     será feita na classe Game, que tem acesso ao pássaro e aos canos.
-    O método GameObject::isColliding pode ser usado para isso.*/
-    return GameObject::isColliding(other);
+    O método GameObject::checkCollision pode ser usado para isso.*/
+    return GameObject::checkCollision(other);
 }
 
 int Bird::getWidth() const {
@@ -55,4 +55,10 @@ int Bird::getWidth() const {
 
 int Bird::getHeight() const {
     return height; // Retorna a altura da imagem do pássaro
+}
+
+void Bird::setPosition(float newX, float newY) {
+    x = newX;
+    y = newY;
+    speedY = 0.0f; // Reseta a velocidade vertical quando reposiciona
 }
