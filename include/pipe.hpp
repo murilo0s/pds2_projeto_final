@@ -58,6 +58,18 @@ public:
      */
     bool isPassed(const Bird& bird);
 
+    /**
+     * @brief Retorna a posição X do cano.
+     * @return Posição X do cano.
+     */
+    float getX() const;
+
+    /**
+     * @brief Retorna a largura do cano.
+     * @return Largura do cano.
+     */
+    float getWidth() const;
+
 private:
     
     float gapY;       ///< essa variavel armazena o espaço (onde o passaro passa) entre os canos de cima e de baixo 

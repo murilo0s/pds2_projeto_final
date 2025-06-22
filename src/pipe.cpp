@@ -93,12 +93,12 @@ bool Pipe::isPassed(const Bird& bird) {
 }
 
 // retorna a posição x do cano
-float Pipe::getX() {
+float Pipe::getX() const {
     return x;
 }
 
 // retorna a largura do cano
-float Pipe::getWidth() {
+float Pipe::getWidth() const {
     if (pipe_img) {
         return al_get_bitmap_width(pipe_img);
     }
