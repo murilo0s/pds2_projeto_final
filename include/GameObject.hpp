@@ -17,9 +17,9 @@ public:
     virtual ~GameObject() = default;
 
     // Métodos virtuais puros (devem ser implementados pelas classes derivadas)
-    virtual void update() = 0; // Atualiza o estado do objeto
-    virtual void draw() = 0; // Desenha o objeto na tela
-    virtual bool isColliding(const GameObject& other) = 0; // Verifica colisão com outro objeto
+    virtual void update(float deltaTime) = 0; // Atualiza o estado do objeto
+    virtual void render() = 0; // Desenha o objeto na tela
+    virtual bool checkCollision(const GameObject& other) = 0; // Verifica colisão com outro objeto
 
     // Métodos de implementação (podem ser sobrescritos)
     virtual bool isOffScreen(); // Verifica se o objeto saiu da tela

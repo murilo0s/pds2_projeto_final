@@ -6,9 +6,7 @@ Bird::Bird(float startX, float startY): GameObject(startX, startY, 0, 0),
       speedY(0.0f),
       gravity(-0.5f),
       jumpStrength(10.0f),
-      bird_img(nullptr),
-      width(0),
-      height(0) {
+      bird_img(nullptr) {
     // Carrega a imagem do pássaro
     bird_img = al_load_bitmap("assets/bird.png");
     if (!bird_img) {
@@ -43,10 +41,11 @@ void Bird::render() {
 }
 
 bool Bird::checkCollision(const GameObject& other) {
-    /*Esta implementação de colisão é genérica. A lógica de verificação
-    será feita na classe Game, que tem acesso ao pássaro e aos canos.
-    O método GameObject::checkCollision pode ser usado para isso.*/
-    return GameObject::checkCollision(other);
+    // Implementação simples de colisão retangular
+    return (x < other.getX() + other.getWidth() &&
+            x + width > other.getX() &&
+            y < other.getY() + other.getHeight() &&
+            y + height > other.getY());
 }
 
 int Bird::getWidth() const {
