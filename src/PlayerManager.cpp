@@ -34,9 +34,9 @@ void PlayerManager::remover_cadastro(string _apelido){
         {
             jogadores.erase(jogadores.begin() + contador);
             
-            std::ofstream file("Jogadores_Cadastrados.txt", std::ios::trunc); //exclue informações do arquivo de texto
+            std::ofstream file("ranking.txt", std::ios::trunc); //exclue informações do arquivo de texto
             
-            this->salvar(); //salva informações novamente, agora sem o jogador que foi excluído
+            this->salvar("ranking.txt"); //salva informações novamente, agora sem o jogador que foi excluído
 
             return;
         }
@@ -44,10 +44,10 @@ void PlayerManager::remover_cadastro(string _apelido){
     }
 };
 
-void PlayerManager::salvar()
+void PlayerManager::salvar(const std::string& nomeArquivo)
 {
     ofstream arquivo;
-    arquivo.open("Jogadores_Cadastrados.txt");
+    arquivo.open(nomeArquivo);
 
     if (!arquivo.is_open())
     {
@@ -55,13 +55,15 @@ void PlayerManager::salvar()
         return;
     }
 
-    for (Player &jogador : jogadores)
+    for (Player& jogador : jogadores)
     {
-        arquivo << jogador.getNome() << " " << jogador.getApelido() << " " << jogador.getPonto_max() << jogador.getTotal_partidas() << endl;
+        arquivo << jogador.getNome() << " " << jogador.getApelido() << " "
+                << jogador.getPonto_max() << " " << jogador.getTotal_partidas() << endl;
     }
 
     arquivo.close();
 }
+
 
 void PlayerManager::carregar(const std::string &nomeArquivo)
 {

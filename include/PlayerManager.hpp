@@ -14,10 +14,10 @@ private:
 public:
     void cadastrar(string _nome, string _apelido);//cadastro de um jogador
     void remover_cadastro(string _apelido);
-    void salvar();//salvando em um arquivo
+    void salvar(const std::string& nomeArquivo);//salvando em um arquivo
     void carregar(const string& nomeArquivo);//carregando arquivo
-    void ordenarRanking();//
-    Player getMelhorJogador() const;
+    void ordenarRanking();//ordenando jogares baseando se nos critérios de pontuação
+    Player getMelhorJogador() const;//exibindo melhor jogador / trabalha com ordenar ranking
     void exibir();
     const std::vector<Player>& getJogadores() const;
 };
