@@ -18,7 +18,7 @@ Player::Player(string _nome, string _apelido, int _pontuacao_max, int _total_par
 };
 
 int Player::incrementar_partidas(){
-    return this->total_partidas ++;
+    return ++this->total_partidas;
 };
 
 void Player::update_pontuacao_max(int pontuacao_atual){
