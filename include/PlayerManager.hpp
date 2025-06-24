@@ -20,6 +20,7 @@ public:
     Player getMelhorJogador() const;//exibindo melhor jogador / trabalha com ordenar ranking
     void exibir();
     const std::vector<Player>& getJogadores() const;
+    std::vector<Player>& getJogadores();
 };
 
 #endif 

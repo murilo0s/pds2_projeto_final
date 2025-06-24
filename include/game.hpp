@@ -15,6 +15,7 @@ class Pipe;
 class PlayerManager;
 class GameRenderer;
 class GameLogic;
+class Player;
 
 /**
  * @brief Enumeração para os estados do jogo
@@ -27,15 +28,17 @@ class GameLogic;
  * - CADASTRO_JOGADOR: Tela de cadastro de jogador
  * - SELECAO_JOGADOR: Tela de seleção de jogador
  * - RANKING: Tela de ranking
+ * - PLAYER_MENU: Tela de menu do jogador
  */
 enum GameState {
-    MENU,       ///< Menu principal do jogo
-    PLAYING,    ///< Jogo em andamento
-    GAME_OVER,  ///< Fim de jogo
-    GAME_EXIT,  ///< Saída do jogo
-    CADASTRO_JOGADOR,  ///< Tela de cadastro de jogador
-    SELECAO_JOGADOR,  ///< Tela de seleção de jogador
-    RANKING  ///< Tela de ranking
+    PLAYER_MENU,
+    CADASTRO_JOGADOR,
+    MENU,
+    PLAYING,
+    GAME_OVER,
+    GAME_EXIT,
+    SELECAO_JOGADOR,
+    RANKING
 };
 
 /**
@@ -50,7 +53,6 @@ class Game {
 private:
     // Componentes Allegro
     ALLEGRO_DISPLAY* display; ///< janela do jogo
-    ALLEGRO_EVENT_QUEUE* eventQueue; ///< fila para processar eventos (teclado, mouse, etc.)
     ALLEGRO_TIMER* timer; ///< temporizador que controla o FPS
     ALLEGRO_FONT* font; ///< fonte para o jogo (para renderizar textos)
 
@@ -80,13 +82,10 @@ private:
     static const int FPS = 60; ///< frames por segundo do jogo
 
     // Gerenciador de jogadores
-    PlayerManager* jogadorAtual; ///< ponteiro para o jogador atual
+    Player* jogadorAtual; ///< ponteiro para o jogador atualmente selecionado
     std::string nomeJogadorAtual; ///< nome do jogador atual
     std::string apelidoJogadorAtual; ///< apelido do jogador atual
     bool jogadorSelecionado; ///< indica se o jogador foi selecionado
-    std::string inputNome; ///< input do nome do jogador
-    std::string inputApelido; ///< input do apelido do jogador
-    int campoPreenchido; ///< campo preenchido: 0 = nome, 1 = apelido
 
     // inicialização
     /**
@@ -201,6 +200,10 @@ private:
     void cleanupGameObjects();
 
 public:
+    ALLEGRO_EVENT_QUEUE* eventQueue;
+    std::string inputNome;
+    std::string inputApelido;
+    int campoPreenchido;
     /**
      * @brief Construtor da classe Game
      *
@@ -377,5 +380,11 @@ public:
      * @return Ponteiro para o array de teclas
      */
     bool* getKeys() { return keys; }
+
+    void menuJogador();
+
+    Player* getJogadorAtual() { return jogadorAtual; }
+
+    void setJogadorAtual(Player* jogador) { jogadorAtual = jogador; }
 };
 #endif 

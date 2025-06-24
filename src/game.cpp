@@ -11,11 +11,12 @@
 #include <allegro5/allegro_primitives.h>
 #include <fstream>
 #include <cstdlib>
+#include <iostream>
 
 Game::Game() : display(nullptr), eventQueue(nullptr), timer(nullptr), font(nullptr),
                bird(nullptr), playerManager(nullptr), renderer(nullptr), logic(nullptr),
-               currentState(MENU), score(0), highScore(0), running(true),
-               lastPipeSpawn(0), gameStartTime(0) {
+               currentState(PLAYER_MENU), score(0), highScore(0), running(true),
+               lastPipeSpawn(0), gameStartTime(0), inputNome(""), inputApelido(""), campoPreenchido(0) {
     
     // Inicializa o array de teclas (define todas as teclas como não pressionadas)
     for (int i = 0; i < ALLEGRO_KEY_MAX; i++) {
@@ -41,7 +42,7 @@ Game::Game() : display(nullptr), eventQueue(nullptr), timer(nullptr), font(nullp
     playerManager->carregar("ranking.txt");
     jogadorAtual = nullptr;
     jogadorSelecionado = false;
-    campoPreenchido[0] = 0;
+    campoPreenchido = 0;
 }
 
 Game::~Game() {
@@ -51,13 +52,10 @@ Game::~Game() {
 void Game::run() {
     gameStartTime = al_get_time();
     lastPipeSpawn = gameStartTime;
-    
     while (running) {
-        processEvents();
         processInput();
         update();
         render();
-        
         al_rest(1.0 / FPS);
     }
 }
@@ -128,22 +126,20 @@ void Game::initGameObjects() {
 void Game::processEvents() {
     ALLEGRO_EVENT event;
     while (al_get_next_event(eventQueue, &event)) {
-        switch (event.type) {
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                running = false;
-                break;
-            case ALLEGRO_EVENT_KEY_DOWN:
-                keys[event.keyboard.keycode] = true;
-                break;
-            case ALLEGRO_EVENT_KEY_UP:
-                keys[event.keyboard.keycode] = false;
-                break;
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            running = false;
         }
     }
 }
 
 void Game::processInput() {
     switch (currentState) {
+        case PLAYER_MENU:
+            logic->handlePlayerMenuInput(*this);
+            break;
+        case CADASTRO_JOGADOR:
+            logic->handleCadastroJogadorInput(*this);
+            break;
         case MENU:
             logic->handleMenuInput(*this);
             break;
@@ -155,6 +151,8 @@ void Game::processInput() {
             break;
         case GAME_EXIT:
             running = false;
+            break;
+        default:
             break;
     }
 }
@@ -179,6 +177,12 @@ void Game::update() {
 
 void Game::render() {
     switch (currentState) {
+        case PLAYER_MENU:
+            renderer->renderPlayerMenu(*this);
+            break;
+        case CADASTRO_JOGADOR:
+            renderer->renderCadastroJogador(*this);
+            break;
         case MENU:
             renderer->renderMenu(*this);
             break;
@@ -190,6 +194,8 @@ void Game::render() {
             break;
         case GAME_EXIT:
             // Não renderiza nada quando está saindo
+            break;
+        default:
             break;
     }
 }
@@ -207,7 +213,7 @@ void Game::cleanup() {
     cleanupAllegro();
     if (playerManager && jogadorAtual) {
         jogadorAtual->incrementar_partidas();
-        jogadorAtual->update_pontuacao(score);
+        jogadorAtual->update_pontuacao_max(score);
         playerManager->salvar("ranking.txt");
     }
 }
@@ -249,4 +255,7 @@ void Game::cleanupGameObjects() {
     if (logic) {
         delete logic;
     }
+}
+
+void Game::menuJogador() {
 }

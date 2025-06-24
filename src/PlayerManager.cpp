@@ -120,3 +120,7 @@ const std::vector<Player> &PlayerManager::getJogadores() const
 {
     return jogadores;
 }
+
+std::vector<Player>& PlayerManager::getJogadores() {
+    return jogadores;
+}

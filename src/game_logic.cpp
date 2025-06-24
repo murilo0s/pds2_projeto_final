@@ -2,6 +2,8 @@
 #include "game.hpp"
 #include "bird.hpp"
 #include "pipe.hpp"
+#include "Player.hpp"
+#include "PlayerManager.hpp"
 #include <allegro5/allegro.h>
 #include <allegro5/keyboard.h>
 #include <fstream>
@@ -138,6 +140,12 @@ void GameLogic::handleGameInput(Game& game) {
 
 void GameLogic::handleGameOverInput(Game& game) {
     if (isKeyJustPressed(ALLEGRO_KEY_SPACE)) {
+        // Atualiza estatísticas do jogador atual
+        if (game.getJogadorAtual()) {
+            game.getJogadorAtual()->incrementar_partidas();
+            game.getJogadorAtual()->update_pontuacao_max(game.getScore());
+            game.getPlayerManager()->salvar("ranking.txt");
+        }
         game.setCurrentState(MENU);
     }
     
@@ -153,6 +161,64 @@ void GameLogic::handlePauseInput(Game& game) {
     
     if (isKeyJustPressed(ALLEGRO_KEY_ESCAPE)) {
         game.setRunning(false);
+    }
+}
+
+void GameLogic::handlePlayerMenuInput(Game& game) {
+    ALLEGRO_EVENT event;
+    while (al_get_next_event(game.eventQueue, &event)) {
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
+            int key = event.keyboard.keycode;
+            if (key == ALLEGRO_KEY_N) {
+                game.inputNome = "";
+                game.inputApelido = "";
+                game.campoPreenchido = 0;
+                game.setCurrentState(CADASTRO_JOGADOR);
+            } else if (key >= ALLEGRO_KEY_1 && key <= ALLEGRO_KEY_9) {
+                int idx = key - ALLEGRO_KEY_1;
+                auto& jogadores = game.getPlayerManager()->getJogadores();
+                if (idx < jogadores.size()) {
+                    game.setJogadorAtual(&(jogadores[idx]));
+                    game.setCurrentState(MENU);
+                    return;
+                }
+            } else if (key == ALLEGRO_KEY_ESCAPE) {
+                game.setRunning(false);
+                return;
+            }
+        }
+    }
+}
+
+void GameLogic::handleCadastroJogadorInput(Game& game) {
+    ALLEGRO_EVENT event;
+    while (al_get_next_event(game.eventQueue, &event)) {
+        if (event.type == ALLEGRO_EVENT_KEY_CHAR) {
+            int key = event.keyboard.keycode;
+            unsigned int unichar = event.keyboard.unichar;
+
+            if (key == ALLEGRO_KEY_TAB) {
+                game.campoPreenchido = 1 - game.campoPreenchido; // alterna entre nome e apelido
+            } else if (key == ALLEGRO_KEY_ENTER) {
+                if (!game.inputNome.empty() && !game.inputApelido.empty()) {
+                    game.getPlayerManager()->cadastrar(game.inputNome, game.inputApelido);
+                    game.getPlayerManager()->salvar("ranking.txt");
+                    game.setCurrentState(PLAYER_MENU);
+                }
+            } else if (key == ALLEGRO_KEY_ESCAPE) {
+                game.setCurrentState(PLAYER_MENU);
+            } else if (key == ALLEGRO_KEY_BACKSPACE) {
+                if (game.campoPreenchido == 0 && !game.inputNome.empty())
+                    game.inputNome.pop_back();
+                else if (game.campoPreenchido == 1 && !game.inputApelido.empty())
+                    game.inputApelido.pop_back();
+            } else if (unichar >= 32 && unichar <= 126) { // caracteres imprimíveis
+                if (game.campoPreenchido == 0 && game.inputNome.size() < 16)
+                    game.inputNome += static_cast<char>(unichar);
+                else if (game.campoPreenchido == 1 && game.inputApelido.size() < 16)
+                    game.inputApelido += static_cast<char>(unichar);
+            }
+        }
     }
 }
 
@@ -172,38 +238,4 @@ bool GameLogic::isKeyJustPressed(int keycode) {
     keyStates[keycode] = currentlyPressed;
     
     return currentlyPressed && !wasPressed;
-} 
-
-void GameLogic::trataCadastroIput(Game& game) {
-    if (isKeyJustPressed(ALLEGRO_KEY_ENTER)) {
-        if(game.campoPreenchido == 0) {
-            game.campoPreenchido = 1;
-        } else {
-            processarCadastroJogador(game);
-        }
-    } else if(isKeyJustPressed(ALLEGRO_KEY_ESCAPE)) {
-        game.currentState = MENU;
-        game.inputNome.clear();
-        game.inputApelido.clear();
-        game.campoPreenchido = 0;
-    }
-}
-
-void GameLogic::processarCadastroJogador(Game& game) {
-    if(!game.inputNome == "" || !game.inputApelido == "") {
-        game.playerManager->cadastrar(game.inputNome, game.inputApelido);
-        game.playerManager->salvar("ranking.txt");
-        game.currentState = MENY;
-        game.inputNome.clear();
-        game.inputApelido.clear();
-        game.campoPreenchido = 0;
-    }
-}
-
-void GameLogic::atualizarEstatisticasJogador(Game& game) {
-    if(game.jogadorAtual) {
-        game.jogadorAtual->incrementar_partidas();
-        game.jogadorAtual->update_pontuacao(game.score);
-        game.playerManager->salvar("ranking.txt");
-    }
 }

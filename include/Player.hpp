@@ -18,10 +18,10 @@ class Player{
     Player(string _nome, string _apelido, int _pontuacao_max, int _total_partidas); //construtor para recuperar cadastros do arquivo
     int incrementar_partidas();
     void update_pontuacao_max(int pontuacao_atual);
-    string getNome();
-    string getApelido();
+    string getNome() const;
+    string getApelido() const;
     int getPonto_max() const;
-    int getTotal_partidas();
+    int getTotal_partidas() const;
     void imprimir_jogador();
 };
 

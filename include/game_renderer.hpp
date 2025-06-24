@@ -51,6 +51,12 @@ public:
     void renderBackground();                // Desenha o fundo
     void renderUI(const Game& game);        // Desenha a interface
     void centerText(const char* text, float y); // Centraliza texto
+    void renderCadastro(const Game& game); // Desenha a tela de cadastro
+    void renderAreaDeInput(const std::string& value, int x, int y, bool active); // Desenha a caixa de entrada de texto
+    void renderSelecaoJogador(const Game& game); // Desenha a tela de seleção de jogador
+    void renderRanking(const Game& game); // Desenha a tela de ranking
+    void renderPlayerMenu(const Game& game);
+    void renderCadastroJogador(const Game& game);
 };
 
 #endif 

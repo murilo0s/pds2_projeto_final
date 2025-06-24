@@ -213,6 +213,20 @@ public:
      * @param game é referencia para o objeto game
      */
         void atualizarEstatisticasJogador(Game& game);
+
+    /**
+     * @brief Processa input na tela de menu do jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void handlePlayerMenuInput(Game& game);
+
+    /**
+     * @brief Processa input na tela de cadastro de jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void handleCadastroJogadorInput(Game& game);
 };
 
 #endif 

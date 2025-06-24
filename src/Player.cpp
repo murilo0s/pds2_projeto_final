@@ -29,11 +29,11 @@ void Player::update_pontuacao_max(int pontuacao_atual){
         this->pontuacao_max = pontuacao_atual;
 };
 
-string Player::getNome(){
+string Player::getNome() const {
     return this->nome;
 };
 
-string Player::getApelido(){
+string Player::getApelido() const {
     return this->apelido;
 };
 
@@ -41,7 +41,7 @@ int Player::getPonto_max()const {
     return this->pontuacao_max;
 };
 
-int Player::getTotal_partidas(){
+int Player::getTotal_partidas() const {
     return this->total_partidas;
 };
 

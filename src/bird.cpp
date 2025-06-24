@@ -8,7 +8,7 @@ Bird::Bird(float startX, float startY): GameObject(startX, startY, 0, 0),
       jumpStrength(-300.0f),
       bird_img(nullptr) {
     // Carrega a imagem do pássaro
-    bird_img = al_load_bitmap("assets/plane.png");
+    bird_img = al_load_bitmap("assets/bird/plane.png");
     if (!bird_img) {
         std::cerr << "Erro ao carregar imagem do passaro!" << std::endl;
     } else {
