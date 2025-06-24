@@ -50,3 +50,4 @@ Makefile
 # Arquivos do sistema
 .DS_Store
 Thumbs.db
+teste.pm
