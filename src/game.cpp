@@ -14,9 +14,11 @@
 #include <iostream>
 
 Game::Game() : display(nullptr), eventQueue(nullptr), timer(nullptr), font(nullptr),
-               bird(nullptr), playerManager(nullptr), renderer(nullptr), logic(nullptr),
+               fontLarge(nullptr), fontMedium(nullptr), fontTitle(nullptr), fontScore(nullptr),
+               fontRegular(nullptr), fontSmall(nullptr), bird(nullptr), playerManager(nullptr), renderer(nullptr), logic(nullptr),
                currentState(PLAYER_MENU), score(0), highScore(0), running(true),
-               lastPipeSpawn(0), gameStartTime(0), inputNome(""), inputApelido(""), campoPreenchido(0) {
+               lastPipeSpawn(0), gameStartTime(0), inputNome(""), inputApelido(""), campoPreenchido(0),
+               cursorBlinkTime(0), cursorVisible(true), feedbackMessage(""), feedbackStartTime(0), showFeedback(false) {
     
     // Inicializa o array de teclas (define todas as teclas como não pressionadas)
     for (int i = 0; i < ALLEGRO_KEY_MAX; i++) {
@@ -111,7 +113,13 @@ bool Game::initAllegro() {
 
 bool Game::initFonts() {
     font = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 25, 0);
-    if (!font) {
+    fontLarge = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 48, 0);
+    fontMedium = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 32, 0);
+    fontTitle = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 48, 0);
+    fontScore = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 36, 0);
+    fontRegular = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 24, 0);
+    fontSmall = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 20, 0);
+    if (!font || !fontLarge || !fontMedium || !fontTitle || !fontScore || !fontRegular || !fontSmall) {
         return false;
     }
     return true;
@@ -173,6 +181,26 @@ void Game::update() {
         logic->checkCollisions(*this);
         logic->calculateScore(*this);
     }
+    
+    // Atualiza o cursor piscante para a tela de cadastro
+    if (currentState == CADASTRO_JOGADOR) {
+        cursorBlinkTime += 1.0 / FPS;
+        
+        // Pisca o cursor a cada 0.5 segundos
+        if (cursorBlinkTime >= 0.5) {
+            cursorVisible = !cursorVisible;
+            cursorBlinkTime = 0;
+        }
+    }
+    
+    // Controla a duração das mensagens de feedback
+    if (showFeedback) {
+        double currentTime = al_get_time();
+        if (currentTime - feedbackStartTime >= 3.0) { // 3 segundos
+            showFeedback = false;
+            feedbackMessage = "";
+        }
+    }
 }
 
 void Game::render() {
@@ -219,18 +247,16 @@ void Game::cleanup() {
 }
 
 void Game::cleanupAllegro() {
-    if (font) {
-        al_destroy_font(font);
-    }
-    if (timer) {
-        al_destroy_timer(timer);
-    }
-    if (eventQueue) {
-        al_destroy_event_queue(eventQueue);
-    }
-    if (display) {
-        al_destroy_display(display);
-    }
+    if (font) al_destroy_font(font);
+    if (fontLarge) al_destroy_font(fontLarge);
+    if (fontMedium) al_destroy_font(fontMedium);
+    if (fontTitle) al_destroy_font(fontTitle);
+    if (fontScore) al_destroy_font(fontScore);
+    if (fontRegular) al_destroy_font(fontRegular);
+    if (fontSmall) al_destroy_font(fontSmall);
+    if (timer) al_destroy_timer(timer);
+    if (eventQueue) al_destroy_event_queue(eventQueue);
+    if (display) al_destroy_display(display);
 }
 
 void Game::cleanupGameObjects() {

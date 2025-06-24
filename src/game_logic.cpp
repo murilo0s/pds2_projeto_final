@@ -208,11 +208,41 @@ void GameLogic::handleCadastroJogadorInput(Game& game) {
 
             if (key == ALLEGRO_KEY_TAB) {
                 game.campoPreenchido = 1 - game.campoPreenchido; // alterna entre nome e apelido
+                // Reseta o cursor quando muda de campo
+                game.setCursorVisible(true);
+                game.setCursorBlinkTime(0);
+                // Limpa mensagem de feedback quando o usuário interage
+                game.setShowFeedback(false);
             } else if (key == ALLEGRO_KEY_ENTER) {
                 if (!game.inputNome.empty() && !game.inputApelido.empty()) {
-                    game.getPlayerManager()->cadastrar(game.inputNome, game.inputApelido);
-                    game.getPlayerManager()->salvar("ranking.txt");
-                    game.setCurrentState(PLAYER_MENU);
+                    // Verifica se o apelido já existe
+                    bool apelidoExiste = false;
+                    for (const auto& jogador : game.getPlayerManager()->getJogadores()) {
+                        if (jogador.getApelido() == game.inputApelido) {
+                            apelidoExiste = true;
+                            break;
+                        }
+                    }
+                    
+                    if (apelidoExiste) {
+                        // Mostra mensagem de erro
+                        game.setFeedbackMessage("Apelido ja existe. Tente outro.");
+                        game.setFeedbackStartTime(al_get_time());
+                        game.setShowFeedback(true);
+                    } else {
+                        // Cadastra o jogador com sucesso
+                        game.getPlayerManager()->cadastrar(game.inputNome, game.inputApelido);
+                        game.getPlayerManager()->salvar("ranking.txt");
+                        
+                        // Mostra mensagem de sucesso
+                        game.setFeedbackMessage("Jogador cadastrado com sucesso!");
+                        game.setFeedbackStartTime(al_get_time());
+                        game.setShowFeedback(true);
+                        
+                        // Aguarda um pouco antes de voltar ao menu
+                        al_rest(2.0);
+                        game.setCurrentState(PLAYER_MENU);
+                    }
                 }
             } else if (key == ALLEGRO_KEY_ESCAPE) {
                 game.setCurrentState(PLAYER_MENU);
@@ -221,11 +251,23 @@ void GameLogic::handleCadastroJogadorInput(Game& game) {
                     game.inputNome.pop_back();
                 else if (game.campoPreenchido == 1 && !game.inputApelido.empty())
                     game.inputApelido.pop_back();
+                
+                // Reseta o cursor quando o usuário digita
+                game.setCursorVisible(true);
+                game.setCursorBlinkTime(0);
+                // Limpa mensagem de feedback quando o usuário interage
+                game.setShowFeedback(false);
             } else if (unichar >= 32 && unichar <= 126) { // caracteres imprimíveis
                 if (game.campoPreenchido == 0 && game.inputNome.size() < 16)
                     game.inputNome += static_cast<char>(unichar);
                 else if (game.campoPreenchido == 1 && game.inputApelido.size() < 16)
                     game.inputApelido += static_cast<char>(unichar);
+                
+                // Reseta o cursor quando o usuário digita
+                game.setCursorVisible(true);
+                game.setCursorBlinkTime(0);
+                // Limpa mensagem de feedback quando o usuário interage
+                game.setShowFeedback(false);
             }
         }
     }

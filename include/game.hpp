@@ -55,6 +55,12 @@ private:
     ALLEGRO_DISPLAY* display; ///< janela do jogo
     ALLEGRO_TIMER* timer; ///< temporizador que controla o FPS
     ALLEGRO_FONT* font; ///< fonte para o jogo (para renderizar textos)
+    ALLEGRO_FONT* fontLarge; // Para títulos
+    ALLEGRO_FONT* fontMedium; // Para botões e destaques
+    ALLEGRO_FONT* fontTitle;   // 48px
+    ALLEGRO_FONT* fontScore;   // 36px
+    ALLEGRO_FONT* fontRegular; // 24px
+    ALLEGRO_FONT* fontSmall;   // 20px
 
     // Objetos do jogo
     Bird* bird; ///< ponteiro para o pássaro que o jogador controla
@@ -86,6 +92,13 @@ private:
     std::string nomeJogadorAtual; ///< nome do jogador atual
     std::string apelidoJogadorAtual; ///< apelido do jogador atual
     bool jogadorSelecionado; ///< indica se o jogador foi selecionado
+
+    // Variáveis para melhorias na tela de cadastro
+    double cursorBlinkTime; ///< tempo para controlar o piscar do cursor
+    bool cursorVisible; ///< indica se o cursor está visível
+    std::string feedbackMessage; ///< mensagem de feedback para o usuário
+    double feedbackStartTime; ///< tempo de início da mensagem de feedback
+    bool showFeedback; ///< indica se deve mostrar mensagem de feedback
 
     // inicialização
     /**
@@ -384,7 +397,30 @@ public:
     void menuJogador();
 
     Player* getJogadorAtual() { return jogadorAtual; }
+    const Player* getJogadorAtual() const { return jogadorAtual; }
 
     void setJogadorAtual(Player* jogador) { jogadorAtual = jogador; }
+
+    // Getters para as novas variáveis de cadastro
+    double getCursorBlinkTime() const { return cursorBlinkTime; }
+    bool getCursorVisible() const { return cursorVisible; }
+    std::string getFeedbackMessage() const { return feedbackMessage; }
+    double getFeedbackStartTime() const { return feedbackStartTime; }
+    bool getShowFeedback() const { return showFeedback; }
+    
+    // Setters para as novas variáveis de cadastro
+    void setCursorBlinkTime(double time) { cursorBlinkTime = time; }
+    void setCursorVisible(bool visible) { cursorVisible = visible; }
+    void setFeedbackMessage(const std::string& message) { feedbackMessage = message; }
+    void setFeedbackStartTime(double time) { feedbackStartTime = time; }
+    void setShowFeedback(bool show) { showFeedback = show; }
+
+    ALLEGRO_FONT* getFontLarge() const { return fontLarge; }
+    ALLEGRO_FONT* getFontMedium() const { return fontMedium; }
+
+    ALLEGRO_FONT* getFontTitle() const { return fontTitle; }
+    ALLEGRO_FONT* getFontScore() const { return fontScore; }
+    ALLEGRO_FONT* getFontRegular() const { return fontRegular; }
+    ALLEGRO_FONT* getFontSmall() const { return fontSmall; }
 };
 #endif 

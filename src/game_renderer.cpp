@@ -10,16 +10,20 @@
 #include <iostream>
 #include <algorithm>
 
-GameRenderer::GameRenderer(ALLEGRO_FONT* font) : font(font), background_img(nullptr), ground_img(nullptr) {
+GameRenderer::GameRenderer(ALLEGRO_FONT* font) : font(font), background_img(nullptr), ground_img(nullptr), gameover_bg_img(nullptr) {
     // Carrega a imagem de background
-    background_img = al_load_bitmap("assets/background/forest2_background.png");
+    background_img = al_load_bitmap("assets/background/background_2.png");
     if (!background_img) {
         std::cerr << "Erro ao carregar imagem de background!" << std::endl;
     }
     // Carrega a imagem do chão
-    ground_img = al_load_bitmap("assets/ground.png");
+    ground_img = al_load_bitmap("assets/ground/layer-3-ground.png");
     if (!ground_img) {
         std::cerr << "Erro ao carregar imagem do chão!" << std::endl;
+    }
+    gameover_bg_img = al_load_bitmap("assets/background/background_2.png");
+    if (!gameover_bg_img) {
+        std::cerr << "Erro ao carregar imagem de fundo do Game Over!" << std::endl;
     }
 }
 
@@ -29,6 +33,9 @@ GameRenderer::~GameRenderer() {
     }
     if (ground_img) {
         al_destroy_bitmap(ground_img);
+    }
+    if (gameover_bg_img) {
+        al_destroy_bitmap(gameover_bg_img);
     }
 }
 
@@ -68,20 +75,98 @@ void GameRenderer::renderPlaying(const Game& game) {
 }
 
 void GameRenderer::renderGameOver(const Game& game) {
-    al_clear_to_color(al_map_rgb(135, 206, 235));
+    // Desenha a imagem de fundo do Game Over, se existir
+    if (gameover_bg_img) {
+        al_draw_bitmap(gameover_bg_img, 0, 0, 0);
+    } else {
+        renderBackground(); // fallback para fundo padrão
+    }
     
-    centerText("GAME OVER", game.getScreenHeight() / 3);
+    // Painel cobre toda a tela
+    int panelX = 0;
+    int panelY = 0;
+    int panelWidth = game.getScreenWidth();
+    int panelHeight = game.getScreenHeight();
     
-    char scoreText[50];
-    sprintf(scoreText, "Pontuacao: %d", game.getScore());
-    centerText(scoreText, game.getScreenHeight() / 2);
+    // Painel de fundo semitransparente
+    al_draw_filled_rectangle(panelX, panelY, panelX + panelWidth, panelY + panelHeight, 
+                           al_map_rgba(0, 0, 0, 180));
     
-    char highScoreText[50];
-    sprintf(highScoreText, "Melhor Pontuacao: %d", game.getHighScore());
-    centerText(highScoreText, game.getScreenHeight() * 2 / 3);
+    // Borda do painel
+    al_draw_rectangle(panelX, panelY, panelX + panelWidth, panelY + panelHeight, 
+                     al_map_rgb(255, 255, 255), 3);
     
-    centerText("Pressione ESPACO para jogar novamente", game.getScreenHeight() * 4 / 5 - 30);
-    centerText("Pressione M para voltar ao menu de jogadores", game.getScreenHeight() * 4 / 5 + 10);
+    // Título "FIM DE JOGO"
+    al_draw_text(game.getFontTitle(), al_map_rgb(255, 60, 60), 
+                game.getScreenWidth() / 2, panelY + 60, 
+                ALLEGRO_ALIGN_CENTER, "FIM DE JOGO");
+    
+    // Estatísticas da partida
+    int startY = panelY + 120;
+    int lineHeight = 45;
+    int xCenter = game.getScreenWidth() / 2;
+    
+    // Rótulo Pontuação
+    al_draw_text(game.getFontRegular(), al_map_rgb(220, 220, 220), xCenter, startY, ALLEGRO_ALIGN_CENTER, "Pontuação:");
+    // Número da Pontuação
+    char scoreNum[32];
+    sprintf(scoreNum, "%d", game.getScore());
+    al_draw_text(game.getFontScore(), al_map_rgb(255, 255, 0), xCenter, startY + 28, ALLEGRO_ALIGN_CENTER, scoreNum);
+    
+    // Rótulo Seu Recorde
+    al_draw_text(game.getFontRegular(), al_map_rgb(200, 200, 200), xCenter, startY + lineHeight + 10, ALLEGRO_ALIGN_CENTER, "Seu Recorde:");
+    // Número do Recorde Pessoal
+    if (game.getJogadorAtual()) {
+        char personalBestNum[32];
+        sprintf(personalBestNum, "%d", game.getJogadorAtual()->getPonto_max());
+        al_draw_text(game.getFontScore(), al_map_rgb(255, 255, 255), xCenter, startY + lineHeight + 38, ALLEGRO_ALIGN_CENTER, personalBestNum);
+    }
+    
+    // Rótulo Recorde Geral
+    al_draw_text(game.getFontRegular(), al_map_rgb(200, 200, 200), xCenter, startY + lineHeight*2 + 20, ALLEGRO_ALIGN_CENTER, "Recorde Geral:");
+    // Número do Recorde Geral
+    char globalRecordNum[32];
+    sprintf(globalRecordNum, "%d", game.getHighScore());
+    al_draw_text(game.getFontScore(), al_map_rgb(255, 255, 255), xCenter, startY + lineHeight*2 + 48, ALLEGRO_ALIGN_CENTER, globalRecordNum);
+    
+    // Mensagem de celebração se for novo recorde
+    bool isNewPersonalRecord = false;
+    if (game.getJogadorAtual() && game.getScore() > game.getJogadorAtual()->getPonto_max()) {
+        isNewPersonalRecord = true;
+    }
+    bool isNewGlobalRecord = (game.getScore() > game.getHighScore());
+    int yNovoRecorde = startY + lineHeight*2 + 90; // 90px abaixo do início do bloco do recorde geral
+    if (isNewPersonalRecord || isNewGlobalRecord) {
+        al_draw_text(game.getFontRegular(), al_map_rgb(255, 215, 0), xCenter, yNovoRecorde, ALLEGRO_ALIGN_CENTER, "NOVO RECORDE!");
+    }
+    
+    // Informações do jogador atual
+    if (game.getJogadorAtual()) {
+        char playerInfo[200];
+        sprintf(playerInfo, "Jogador: %s (%s)", 
+                game.getJogadorAtual()->getNome().c_str(),
+                game.getJogadorAtual()->getApelido().c_str());
+        al_draw_text(game.getFontRegular(), al_map_rgb(220, 220, 220), xCenter, startY + lineHeight*4 + 10, ALLEGRO_ALIGN_CENTER, playerInfo);
+    }
+    
+    // Botões de ação centralizados
+    int buttonY = panelY + panelHeight - 160;
+    int buttonWidth = 240;
+    int buttonHeight = 40;
+    int buttonSpacing = 60;
+    int btn1X = xCenter - buttonWidth - buttonSpacing/2;
+    int btn2X = xCenter + buttonSpacing/2;
+    // Botão "Jogar Novamente"
+    al_draw_filled_rectangle(btn1X, buttonY, btn1X + buttonWidth, buttonY + buttonHeight, al_map_rgb(50, 150, 50));
+    al_draw_rectangle(btn1X, buttonY, btn1X + buttonWidth, buttonY + buttonHeight, al_map_rgb(255, 255, 255), 2);
+    al_draw_text(game.getFontRegular(), al_map_rgb(255, 255, 255), btn1X + buttonWidth/2, buttonY + 10, ALLEGRO_ALIGN_CENTER, "JOGAR NOVAMENTE");
+    // Botão "Menu Principal"
+    al_draw_filled_rectangle(btn2X, buttonY, btn2X + buttonWidth, buttonY + buttonHeight, al_map_rgb(150, 50, 50));
+    al_draw_rectangle(btn2X, buttonY, btn2X + buttonWidth, buttonY + buttonHeight, al_map_rgb(255, 255, 255), 2);
+    al_draw_text(game.getFontRegular(), al_map_rgb(255, 255, 255), btn2X + buttonWidth/2, buttonY + 10, ALLEGRO_ALIGN_CENTER, "MENU PRINCIPAL");
+    // Instruções de rodapé
+    int instructionsY = buttonY + buttonHeight + 20;
+    al_draw_text(game.getFontSmall(), al_map_rgb(180, 180, 180), xCenter, instructionsY, ALLEGRO_ALIGN_CENTER, "ESPACO: Jogar Novamente | M: Menu Principal | ESC: Sair");
     
     al_flip_display();
 }
@@ -200,10 +285,63 @@ void GameRenderer::renderPlayerMenu(const Game& game) {
 void GameRenderer::renderCadastroJogador(const Game& game) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_text(font, al_map_rgb(255,255,0), 400, 50, ALLEGRO_ALIGN_CENTRE, "CADASTRO DE JOGADOR");
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 150, ALLEGRO_ALIGN_CENTRE, "Nome: %s%s", 
-        game.inputNome.c_str(), (game.campoPreenchido == 0 ? "_" : ""));
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 200, ALLEGRO_ALIGN_CENTRE, "Apelido: %s%s", 
-        game.inputApelido.c_str(), (game.campoPreenchido == 1 ? "_" : ""));
-    al_draw_text(font, al_map_rgb(0,255,0), 400, 300, ALLEGRO_ALIGN_CENTRE, "ENTER para confirmar, TAB para alternar campo, ESC para cancelar");
+    
+    // Calcula posições dos campos
+    int centerX = game.getScreenWidth() / 2;
+    int nomeY = 150;
+    int apelidoY = 200;
+    int fieldWidth = 300;
+    int fieldHeight = 30;
+    
+    // Desenha campo Nome com indicador de campo ativo
+    if (game.campoPreenchido == 0) {
+        // Campo ativo - destaque
+        al_draw_filled_rectangle(centerX - fieldWidth/2 - 5, nomeY - 5, 
+                                centerX + fieldWidth/2 + 5, nomeY + fieldHeight + 5, 
+                                al_map_rgb(100, 100, 255));
+    }
+    al_draw_filled_rectangle(centerX - fieldWidth/2, nomeY, 
+                            centerX + fieldWidth/2, nomeY + fieldHeight, 
+                            al_map_rgb(50, 50, 50));
+    al_draw_text(font, al_map_rgb(255,255,255), centerX - fieldWidth/2 + 10, nomeY + 5, 
+                ALLEGRO_ALIGN_LEFT, ("Nome: " + game.inputNome).c_str());
+    
+    // Adiciona cursor piscante no campo ativo
+    if (game.campoPreenchido == 0 && game.getCursorVisible()) {
+        int cursorX = centerX - fieldWidth/2 + 10 + al_get_text_width(font, ("Nome: " + game.inputNome).c_str());
+        al_draw_line(cursorX, nomeY + 5, cursorX, nomeY + fieldHeight - 5, al_map_rgb(255, 255, 255), 2);
+    }
+    
+    // Desenha campo Apelido com indicador de campo ativo
+    if (game.campoPreenchido == 1) {
+        // Campo ativo - destaque
+        al_draw_filled_rectangle(centerX - fieldWidth/2 - 5, apelidoY - 5, 
+                                centerX + fieldWidth/2 + 5, apelidoY + fieldHeight + 5, 
+                                al_map_rgb(100, 100, 255));
+    }
+    al_draw_filled_rectangle(centerX - fieldWidth/2, apelidoY, 
+                            centerX + fieldWidth/2, apelidoY + fieldHeight, 
+                            al_map_rgb(50, 50, 50));
+    al_draw_text(font, al_map_rgb(255,255,255), centerX - fieldWidth/2 + 10, apelidoY + 5, 
+                ALLEGRO_ALIGN_LEFT, ("Apelido: " + game.inputApelido).c_str());
+    
+    // Adiciona cursor piscante no campo ativo
+    if (game.campoPreenchido == 1 && game.getCursorVisible()) {
+        int cursorX = centerX - fieldWidth/2 + 10 + al_get_text_width(font, ("Apelido: " + game.inputApelido).c_str());
+        al_draw_line(cursorX, apelidoY + 5, cursorX, apelidoY + fieldHeight - 5, al_map_rgb(255, 255, 255), 2);
+    }
+    
+    // Instruções
+    al_draw_text(font, al_map_rgb(0,255,0), 400, 300, ALLEGRO_ALIGN_CENTRE, 
+                "ENTER para confirmar, TAB para alternar campo, ESC para cancelar");
+    
+    // Mensagem de feedback
+    if (game.getShowFeedback()) {
+        ALLEGRO_COLOR feedbackColor = (game.getFeedbackMessage().find("sucesso") != std::string::npos) ? 
+                                     al_map_rgb(0, 255, 0) : al_map_rgb(255, 100, 100);
+        al_draw_text(font, feedbackColor, 400, 350, ALLEGRO_ALIGN_CENTRE, 
+                    game.getFeedbackMessage().c_str());
+    }
+    
     al_flip_display();
 }
