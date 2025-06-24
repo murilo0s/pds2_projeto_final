@@ -9,7 +9,7 @@ const float GAP_HEIGHT = 200.0f; // define o tamanho do vão entre os canos
 // chama o construtor de gameObject com os valores zerados pois não sabemos as dimensões do cano
 Pipe::Pipe(float startX, float gapCenterY) : GameObject(0, 0, 0, 0) {
     // Tenta carregar a imagem do cano do arquivo "pipe.png".
-    pipe_img = al_load_bitmap("pipe.png");
+    pipe_img = al_load_bitmap("assets/pipe.png");
     
     // Verifica se a imagem foi carregada
     if(!pipe_img) {

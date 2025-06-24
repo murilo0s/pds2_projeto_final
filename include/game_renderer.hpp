@@ -21,6 +21,8 @@ class Game;
 class GameRenderer {
 private:
     ALLEGRO_FONT* font; // Fonte para escrever textos
+    ALLEGRO_BITMAP* background_img; // Imagem de fundo do jogo
+    ALLEGRO_BITMAP* ground_img; // Imagem do chão
 
 public:
     /**

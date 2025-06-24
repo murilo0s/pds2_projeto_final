@@ -8,6 +8,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
 #include <fstream>
 #include <cstdlib>
 
@@ -71,6 +72,10 @@ bool Game::initAllegro() {
     }
     
     if (!al_init_ttf_addon()) {
+        return false;
+    }
+    
+    if (!al_init_primitives_addon()) {
         return false;
     }
     
