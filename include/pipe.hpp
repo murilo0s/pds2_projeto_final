@@ -72,9 +72,10 @@ public:
 
 private:
     
-    float gapY;       ///< essa variavel armazena o espaço (onde o passaro passa) entre os canos de cima e de baixo 
-    bool passed;      ///< garante que o jogador ganhe pontos por passar do cano apenas uma vez
-    ALLEGRO_BITMAP* pipe_img; ///< ponteiro que guarda o endereço da imagem do cano
+    float gapY;       ///< Armazena o espaço entre os canos de cima e de baixo 
+    bool passed;      ///< Garante que o jogador pontue ao passar pelos canos
+    ALLEGRO_BITMAP* pipe_img; ///< Ponteiro que armazena o endereço da imagem do cano
+    
 };
 
 #endif

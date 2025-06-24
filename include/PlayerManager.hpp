@@ -12,12 +12,42 @@ private:
     std::vector<Player> jogadores;
 
 public:
-    void cadastrar(string _nome, string _apelido);//cadastro de um jogador
+    /**
+     * @brief Cadastro de um jogador
+     * 
+     * @param _nome Nome do jogador
+     * @param _apelido Nick do jogador
+     */
+    void cadastrar(string _nome, string _apelido);
+    /**
+     * @brief Remove o cadastro de um jogador
+     * 
+     * @param _apelido Referencia o nick do jogador
+     */
     void remover_cadastro(string _apelido);
-    void salvar(const std::string& nomeArquivo);//salvando em um arquivo
-    void carregar(const string& nomeArquivo);//carregando arquivo
-    void ordenarRanking();//ordenando jogares baseando se nos critérios de pontuação
-    Player getMelhorJogador() const;//exibindo melhor jogador / trabalha com ordenar ranking
+    /**
+     * @brief Salva em um arquivo
+     * 
+     * @param nomeArquivo Nome do arquivo
+     */
+    void salvar(const std::string& nomeArquivo);
+    /**
+     * @brief Carrega um arquivo
+     * 
+     * @param nomeArquivo Referencia o arquivo
+     */
+    void carregar(const string& nomeArquivo);
+    /**
+     * @brief Ordena os jogadores com base na pontuação
+     * 
+     */
+    void ordenarRanking();
+    /**
+     * @brief Exibe o melhor jogador com base no ranking
+     * 
+     * @return Referencia o jogador 
+     */
+    Player getMelhorJogador() const;
     void exibir();
     const std::vector<Player>& getJogadores() const;
     std::vector<Player>& getJogadores();

@@ -41,12 +41,12 @@ public:
      * 
      * @param deltaTime Tempo percorrido desde a última atualização (em segundos).
      */
-    void update(float deltaTime) override; // Atualiza a posição do pássaro com base na velocidade
+    void update(float deltaTime) override; 
 
     /**
      * @brief Desenha o pássaro na tela.
      */
-    void render() override; // Desenha o pássaro na tela
+    void render() override; 
 
     /**
      * @brief Retorna a largura da imagem do pássaro.
