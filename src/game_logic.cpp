@@ -146,9 +146,18 @@ void GameLogic::handleGameOverInput(Game& game) {
             game.getJogadorAtual()->update_pontuacao_max(game.getScore());
             game.getPlayerManager()->salvar("ranking.txt");
         }
-        game.setCurrentState(MENU);
+        resetGame(game); // Reinicia o jogo
+        game.setCurrentState(PLAYING);
     }
-    
+    if (isKeyJustPressed(ALLEGRO_KEY_M)) {
+        // Atualiza estatísticas do jogador atual
+        if (game.getJogadorAtual()) {
+            game.getJogadorAtual()->incrementar_partidas();
+            game.getJogadorAtual()->update_pontuacao_max(game.getScore());
+            game.getPlayerManager()->salvar("ranking.txt");
+        }
+        game.setCurrentState(PLAYER_MENU);
+    }
     if (isKeyJustPressed(ALLEGRO_KEY_ESCAPE)) {
         game.setRunning(false);
     }

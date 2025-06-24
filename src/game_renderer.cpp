@@ -80,7 +80,8 @@ void GameRenderer::renderGameOver(const Game& game) {
     sprintf(highScoreText, "Melhor Pontuacao: %d", game.getHighScore());
     centerText(highScoreText, game.getScreenHeight() * 2 / 3);
     
-    centerText("Pressione ESPACO para jogar novamente", game.getScreenHeight() * 4 / 5);
+    centerText("Pressione ESPACO para jogar novamente", game.getScreenHeight() * 4 / 5 - 30);
+    centerText("Pressione M para voltar ao menu de jogadores", game.getScreenHeight() * 4 / 5 + 10);
     
     al_flip_display();
 }
