@@ -110,7 +110,7 @@ bool Game::initAllegro() {
 }
 
 bool Game::initFonts() {
-    font = al_create_builtin_font();
+    font = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 25, 0);
     if (!font) {
         return false;
     }
