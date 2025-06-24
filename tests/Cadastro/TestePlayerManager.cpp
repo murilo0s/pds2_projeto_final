@@ -1,43 +1,45 @@
-#include <cassert>
-#include <iostream>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "PlayerManager.hpp"
-#include <string>
-
-using namespace std;
+#include "doctest.h"
 
 
-int main() {
-        PlayerManager pm;
-//Teste do cadastro:
-
-
-    std::cout << "=== TestePlayerManager ===\n";
-
-    // Teste 1: Cadastro de jogadores únicos
+TEST_CASE("Cadastro de dois jogadores distintos") {
+    PlayerManager pm;
     pm.cadastrar("Joao", "JoaoKiller");
     pm.cadastrar("Maria", "maria123");
-    assert(pm.getJogadores().size() == 2);
-    std::cout << "[OK] Cadastro de dois jogadores distintos\n";
 
-    // Teste 2: Cadastro com apelido duplicado (não deve adicionar)
-    pm.cadastrar("Joao", "JoaoKiller");  // Mesmo apelido
-    assert(pm.getJogadores().size() == 2);    // Continua com 2
-    std::cout << "[OK] Apelido duplicado ignorado\n";
+    CHECK(pm.getJogadores().size() == 2);
+}
 
-    // Teste 3: Salvar e carregar de arquivo
-    pm.salvar("ranking.txt");  // salva em ranking.txt
+TEST_CASE("Cadastro com apelido duplicado é ignorado") {
+    PlayerManager pm;
+    pm.cadastrar("Joao", "JoaoKiller");
+    pm.cadastrar("Maria", "maria123");
+
+    pm.cadastrar("Joao", "JoaoKiller");  // Tentativa duplicada
+
+    CHECK(pm.getJogadores().size() == 2);  // Não deve aumentar
+}
+
+TEST_CASE("Salvamento e carregamento de arquivo") {
+    PlayerManager pm;
+    pm.cadastrar("Joao", "JoaoKiller");
+    pm.cadastrar("Maria", "maria123");
+
+    pm.salvar("ranking.txt");
 
     PlayerManager outro;
     outro.carregar("ranking.txt");
-    assert(outro.getJogadores().size() == 2);
-    std::cout << "[OK] Salvamento e carregamento de arquivo\n";
 
-    // Teste 4: Melhor jogador
-    Player melhor = outro.getMelhorJogador();
-    assert(melhor.getNome() == "Joao" || melhor.getNome() == "Maria");  // ambos têm 0 ponto
-    std::cout << "[OK] Recuperação do melhor jogador\n";
-
-    std::cout << "Todos os testes passaram!\n";
-
-    return 0;
+    CHECK(outro.getJogadores().size() == 2);
 }
+
+TEST_CASE("Melhor jogador é corretamente identificado") {
+    PlayerManager pm;
+    pm.cadastrar("Joao", "JoaoKiller");
+    pm.cadastrar("Maria", "maria123");
+
+    Player melhor = pm.getMelhorJogador();
+    CHECK(melhor.getNome() == "Joao" || melhor.getNome() == "Maria");
+}
+//Testes atualizados de acordo com a doctest.h
