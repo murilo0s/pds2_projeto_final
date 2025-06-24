@@ -38,6 +38,10 @@ Game::Game() : display(nullptr), eventQueue(nullptr), timer(nullptr), font(nullp
     
     initGameObjects();
     loadHighScore();
+    playerManager->carregar("ranking.txt");
+    jogadorAtual = nullptr;
+    jogadorSelecionado = false;
+    campoPreenchido[0] = 0;
 }
 
 Game::~Game() {
@@ -118,6 +122,7 @@ bool Game::initFonts() {
 void Game::initGameObjects() {
     bird = new Bird(100, SCREEN_HEIGHT / 2);
     playerManager = new PlayerManager();
+    playerManager->carregar("ranking.txt");
 }
 
 void Game::processEvents() {
@@ -200,6 +205,11 @@ void Game::loadHighScore() {
 void Game::cleanup() {
     cleanupGameObjects();
     cleanupAllegro();
+    if (playerManager && jogadorAtual) {
+        jogadorAtual->incrementar_partidas();
+        jogadorAtual->update_pontuacao(score);
+        playerManager->salvar("ranking.txt");
+    }
 }
 
 void Game::cleanupAllegro() {

@@ -173,3 +173,37 @@ bool GameLogic::isKeyJustPressed(int keycode) {
     
     return currentlyPressed && !wasPressed;
 } 
+
+void GameLogic::trataCadastroIput(Game& game) {
+    if (isKeyJustPressed(ALLEGRO_KEY_ENTER)) {
+        if(game.campoPreenchido == 0) {
+            game.campoPreenchido = 1;
+        } else {
+            processarCadastroJogador(game);
+        }
+    } else if(isKeyJustPressed(ALLEGRO_KEY_ESCAPE)) {
+        game.currentState = MENU;
+        game.inputNome.clear();
+        game.inputApelido.clear();
+        game.campoPreenchido = 0;
+    }
+}
+
+void GameLogic::processarCadastroJogador(Game& game) {
+    if(!game.inputNome == "" || !game.inputApelido == "") {
+        game.playerManager->cadastrar(game.inputNome, game.inputApelido);
+        game.playerManager->salvar("ranking.txt");
+        game.currentState = MENY;
+        game.inputNome.clear();
+        game.inputApelido.clear();
+        game.campoPreenchido = 0;
+    }
+}
+
+void GameLogic::atualizarEstatisticasJogador(Game& game) {
+    if(game.jogadorAtual) {
+        game.jogadorAtual->incrementar_partidas();
+        game.jogadorAtual->update_pontuacao(game.score);
+        game.playerManager->salvar("ranking.txt");
+    }
+}

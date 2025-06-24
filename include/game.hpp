@@ -5,6 +5,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <string>
 #include <vector>
 
 
@@ -23,12 +24,18 @@ class GameLogic;
  * - PLAYING: Jogo em andamento
  * - GAME_OVER: Tela de fim de jogo
  * - GAME_EXIT: Saída do jogo
+ * - CADASTRO_JOGADOR: Tela de cadastro de jogador
+ * - SELECAO_JOGADOR: Tela de seleção de jogador
+ * - RANKING: Tela de ranking
  */
 enum GameState {
     MENU,       ///< Menu principal do jogo
     PLAYING,    ///< Jogo em andamento
     GAME_OVER,  ///< Fim de jogo
-    GAME_EXIT   ///< Saída do jogo
+    GAME_EXIT,  ///< Saída do jogo
+    CADASTRO_JOGADOR,  ///< Tela de cadastro de jogador
+    SELECAO_JOGADOR,  ///< Tela de seleção de jogador
+    RANKING  ///< Tela de ranking
 };
 
 /**
@@ -71,6 +78,15 @@ private:
     static const int SCREEN_WIDTH = 800; ///< largura da tela em pixels
     static const int SCREEN_HEIGHT = 600; ///< altura da tela em pixels
     static const int FPS = 60; ///< frames por segundo do jogo
+
+    // Gerenciador de jogadores
+    PlayerManager* jogadorAtual; ///< ponteiro para o jogador atual
+    std::string nomeJogadorAtual; ///< nome do jogador atual
+    std::string apelidoJogadorAtual; ///< apelido do jogador atual
+    bool jogadorSelecionado; ///< indica se o jogador foi selecionado
+    std::string inputNome; ///< input do nome do jogador
+    std::string inputApelido; ///< input do apelido do jogador
+    int campoPreenchido; ///< campo preenchido: 0 = nome, 1 = apelido
 
     // inicialização
     /**

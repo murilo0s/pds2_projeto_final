@@ -171,6 +171,48 @@ public:
      * @return true se a tecla foi pressionada uma vez, false caso contrário
      */
     bool isKeyJustPressed(int keycode);
+
+    /**
+     * @brief Processa input na tela de cadastro de jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void trataCadastroInput(Game& game);
+
+    /**
+     * @brief Processa input na tela de seleção de jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void trataSelecaoJogadorInput(Game& game);
+
+    /**
+     * @brief Processa input na tela de ranking
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void trataRankingInput(Game& game);
+
+    /**
+     * @brief Processa o cadastro de um jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void processarCadastroJogador(Game& game);
+
+    /**
+     * @brief Processa a seleção de um jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+    void processarSelecaoJogador(Game& game);
+
+    /**
+     * @brief Atualiza as estatísticas do jogador
+     * 
+     * @param game é referencia para o objeto game
+     */
+        void atualizarEstatisticasJogador(Game& game);
 };
 
 #endif 
