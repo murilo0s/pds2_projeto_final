@@ -10,14 +10,11 @@ TEST_CASE("Cadastro de dois jogadores distintos") {
     CHECK(pm.getJogadores().size() == 2);
 }
 
-TEST_CASE("Cadastro com apelido duplicado é ignorado") {
+TEST_CASE("Cadastro duplicado lança exceção") {
     PlayerManager pm;
     pm.cadastrar("Joao", "JoaoKiller");
-    pm.cadastrar("Maria", "maria123");
-
-    pm.cadastrar("Joao", "JoaoKiller");  // Tentativa duplicada
-
-    CHECK(pm.getJogadores().size() == 2);  // Não deve aumentar
+    
+    CHECK_THROWS_WITH(pm.cadastrar("Joao", "JoaoKiller"), "Apelido já existente");
 }
 
 TEST_CASE("Salvamento e carregamento de arquivo") {
@@ -42,7 +39,5 @@ TEST_CASE("Melhor jogador é corretamente identificado") {
     std::string nome = melhor.getNome();
     bool nomeValido = (nome == "Joao") || (nome == "Maria");
     CHECK_MESSAGE(nomeValido, "Nome retornado: " << nome << " (esperado: Joao ou Maria)");
-
-
 }
 
