@@ -266,24 +266,62 @@ void GameRenderer::renderRanking(const Game& game) {
 
 void GameRenderer::renderPlayerMenu(const Game& game) {
     al_draw_bitmap(background_img, 0, 0, 0);
-    al_draw_text(font, al_map_rgb(255,255,0), 400, 50, ALLEGRO_ALIGN_CENTRE, "MENU DE JOGADORES");
+    // Título com contorno
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontTitle(), al_map_rgb(0,0,0), 400+dx, 50+dy, ALLEGRO_ALIGN_CENTRE, "FLAPPY BIRD");
+        }
+    }
+    al_draw_text(game.getFontTitle(), al_map_rgb(255,255,0), 400, 50, ALLEGRO_ALIGN_CENTRE, "FLAPPY BIRD");
     int y = 120;
     int idx = 1;
     for (const auto& jogador : game.getPlayerManager()->getJogadores()) {
+        // Lista de jogadores com contorno
+        for (int dx = -1; dx <= 1; ++dx) {
+            for (int dy = -1; dy <= 1; ++dy) {
+                if (dx != 0 || dy != 0)
+                    al_draw_textf(font, al_map_rgb(0,0,0), 400+dx, y+dy, ALLEGRO_ALIGN_CENTRE,
+                        "%d. %s (%s) - Pontos: %d, Partidas: %d",
+                        idx, jogador.getNome().c_str(), jogador.getApelido().c_str(),
+                        jogador.getPonto_max(), jogador.getTotal_partidas());
+            }
+        }
         al_draw_textf(font, al_map_rgb(255,255,255), 400, y, ALLEGRO_ALIGN_CENTRE,
             "%d. %s (%s) - Pontos: %d, Partidas: %d",
             idx++, jogador.getNome().c_str(), jogador.getApelido().c_str(),
             jogador.getPonto_max(), jogador.getTotal_partidas());
         y += 30;
     }
-    al_draw_text(font, al_map_rgb(0,255,0), 400, y+30, ALLEGRO_ALIGN_CENTRE, "N - Novo jogador");
-    al_draw_text(font, al_map_rgb(0,255,0), 400, y+60, ALLEGRO_ALIGN_CENTRE, "1-9 - Selecionar jogador");
-    al_draw_text(font, al_map_rgb(255,0,0), 400, y+90, ALLEGRO_ALIGN_CENTRE, "ESC - Sair");
+    // Ações principais com contorno
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontMedium(), al_map_rgb(0,0,0), 400+dx, y+30+dy, ALLEGRO_ALIGN_CENTRE, "Pressione N para novo jogador");
+        }
+    }
+    al_draw_text(game.getFontMedium(), al_map_rgb(0,255,0), 400, y+30, ALLEGRO_ALIGN_CENTRE, "Pressione N para novo jogador");
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontMedium(), al_map_rgb(0,0,0), 400+dx, y+60+dy, ALLEGRO_ALIGN_CENTRE, "Pressione 1-9 para selecionar jogador");
+        }
+    }
+    al_draw_text(game.getFontMedium(), al_map_rgb(0,255,0), 400, y+60, ALLEGRO_ALIGN_CENTRE, "Pressione 1-9 para selecionar jogador");
+    // Instrução de saída agora na parte inferior da tela
+    int escY = game.getScreenHeight() - 40;
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontMedium(), al_map_rgb(0,0,0), 400+dx, escY+dy, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
+        }
+    }
+    al_draw_text(game.getFontMedium(), al_map_rgb(255,255,255), 400, escY, ALLEGRO_ALIGN_CENTRE, "Pressione ESC para sair");
     al_flip_display();
 }
 
 void GameRenderer::renderCadastroJogador(const Game& game) {
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(background_img, 0, 0, 0);
     al_draw_text(font, al_map_rgb(255,255,0), 400, 50, ALLEGRO_ALIGN_CENTRE, "CADASTRO DE JOGADOR");
     
     // Calcula posições dos campos
@@ -331,9 +369,25 @@ void GameRenderer::renderCadastroJogador(const Game& game) {
         al_draw_line(cursorX, apelidoY + 5, cursorX, apelidoY + fieldHeight - 5, al_map_rgb(255, 255, 255), 2);
     }
     
-    // Instruções
-    al_draw_text(font, al_map_rgb(0,255,0), 400, 300, ALLEGRO_ALIGN_CENTRE, 
-                "ENTER para confirmar, TAB para alternar campo, ESC para cancelar");
+    // Instruções divididas em duas linhas, com contorno preto e fonte medium
+    const char* instr1 = "ENTER para confirmar, TAB para alternar campo";
+    const char* instr2 = "ESC para cancelar";
+    int instr1_y = 300;
+    int instr2_y = 340;
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontMedium(), al_map_rgb(0,0,0), 400+dx, instr1_y+dy, ALLEGRO_ALIGN_CENTRE, instr1);
+        }
+    }
+    al_draw_text(game.getFontMedium(), al_map_rgb(0,255,0), 400, instr1_y, ALLEGRO_ALIGN_CENTRE, instr1);
+    for (int dx = -1; dx <= 1; ++dx) {
+        for (int dy = -1; dy <= 1; ++dy) {
+            if (dx != 0 || dy != 0)
+                al_draw_text(game.getFontMedium(), al_map_rgb(0,0,0), 400+dx, instr2_y+dy, ALLEGRO_ALIGN_CENTRE, instr2);
+        }
+    }
+    al_draw_text(game.getFontMedium(), al_map_rgb(0,255,0), 400, instr2_y, ALLEGRO_ALIGN_CENTRE, instr2);
     
     // Mensagem de feedback
     if (game.getShowFeedback()) {
