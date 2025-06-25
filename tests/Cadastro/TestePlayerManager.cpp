@@ -1,5 +1,5 @@
-#include "doctest.h"
 #include "PlayerManager.hpp"
+#include "doctest.h"
 
 
 TEST_CASE("Cadastro de dois jogadores distintos") {
@@ -36,7 +36,8 @@ TEST_CASE("Melhor jogador é corretamente identificado") {
     pm.cadastrar("Maria", "maria123");
 
     Player melhor = pm.getMelhorJogador();
-    bool nomeValido = (melhor.getNome() == "Joao") || (melhor.getNome() == "Maria");
-    CHECK(nomeValido);
+    std::string nome = melhor.getNome();
+    bool nomeValido = (nome == "Joao") || (nome == "Maria");
+    CHECK_MESSAGE(nomeValido, "Nome retornado: " << nome << " (esperado: Joao ou Maria)");
 }
-//Testes atualizados de acordo com a doctest.h
+

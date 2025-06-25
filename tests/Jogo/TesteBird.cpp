@@ -1,16 +1,16 @@
 #include "bird.hpp"
 #include "pipe.hpp"
 #include "doctest.h"
+#include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 
 TEST_CASE("Bird::Construtor") {
     CHECK(al_init());
     CHECK(al_init_image_addon());
-
-    Bird bird(100, 200);
-    CHECK(bird.getX() == 100);
-    CHECK(bird.getY() == 200);
-    CHECK(bird.getSpeedY() == doctest::Approx(0.0f));
+    Bird passarinho(100, 200);
+    CHECK(passarinho.getX() == 100);
+    CHECK(passarinho.getY() == 200);
+    CHECK(passarinho.getSpeedY() == doctest::Approx(0.0f));
 
     al_shutdown_image_addon();
 }
