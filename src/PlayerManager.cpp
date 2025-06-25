@@ -18,8 +18,7 @@ void PlayerManager::cadastrar(string _nome, string _apelido)
     {
         if (jogador.getApelido() == _apelido)
         {
-            cout << "Apelido já existente";
-            return;
+            throw std::runtime_error("Apelido já existente");
         }
     }
     jogadores.push_back(Player(_nome, _apelido));
@@ -42,6 +41,8 @@ void PlayerManager::remover_cadastro(string _apelido){
         }
         contador ++;
     }
+    
+    throw std::runtime_error("Jogador não encontrado");
 };
 
 void PlayerManager::salvar(const std::string& nomeArquivo)
@@ -51,8 +52,7 @@ void PlayerManager::salvar(const std::string& nomeArquivo)
 
     if (!arquivo.is_open())
     {
-        std::cerr << "Erro ao abrir arquivo para escrita.\n";
-        return;
+        throw std::runtime_error("Erro ao abrir arquivo para escrita: " + nomeArquivo);
     }
 
     for (Player& jogador : jogadores)
@@ -72,8 +72,7 @@ void PlayerManager::carregar(const std::string &nomeArquivo)
     std::ifstream arquivo(nomeArquivo);
     if (!arquivo.is_open())
     {
-        std::cerr << "Arquivo não encontrado. Será criado posteriormente.\n";
-        return;
+        throw std::runtime_error("Arquivo não encontrado: " + nomeArquivo);
     }
 
     string nome, apelido;

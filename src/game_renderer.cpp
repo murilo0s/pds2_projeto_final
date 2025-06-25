@@ -265,7 +265,7 @@ void GameRenderer::renderRanking(const Game& game) {
 }
 
 void GameRenderer::renderPlayerMenu(const Game& game) {
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(background_img, 0, 0, 0);
     al_draw_text(font, al_map_rgb(255,255,0), 400, 50, ALLEGRO_ALIGN_CENTRE, "MENU DE JOGADORES");
     int y = 120;
     int idx = 1;
