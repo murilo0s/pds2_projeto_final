@@ -48,8 +48,20 @@ public:
      * @return Referencia o jogador 
      */
     Player getMelhorJogador() const;
+    /**
+     * @brief Exibe o menu de jogadores
+     * 
+     */
     void exibir();
+    /**
+     * @brief Exibe o ranking de jogadores
+     * 
+     */
     const std::vector<Player>& getJogadores() const;
+    /**
+     * @brief Retorna a lista de jogadores
+     * @return Referencia lista de jogadores
+     */
     std::vector<Player>& getJogadores();
 };
 
