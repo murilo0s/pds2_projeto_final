@@ -1,4 +1,3 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "PlayerManager.hpp"
 #include "doctest.h"
 
@@ -40,6 +39,10 @@ TEST_CASE("Melhor jogador é corretamente identificado") {
     pm.cadastrar("Maria", "maria123");
 
     Player melhor = pm.getMelhorJogador();
-    CHECK(melhor.getNome() == "Joao" || melhor.getNome() == "Maria");
+    std::string nome = melhor.getNome();
+    bool nomeValido = (nome == "Joao") || (nome == "Maria");
+    CHECK_MESSAGE(nomeValido, "Nome retornado: " << nome << " (esperado: Joao ou Maria)");
+
+
 }
-//Testes atualizados de acordo com a doctest.h
+
