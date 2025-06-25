@@ -4,6 +4,13 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 
+TEST_CASE("Pipe lança exceção se imagem não encontrada") {
+    al_init();
+    al_init_image_addon();
+    CHECK_THROWS_AS(Pipe(400, 300, "assets/pipe/inexistente.png"), std::runtime_error);
+    al_uninstall_system();
+}
+
 TEST_CASE("Pipe inicializa corretamente com posição") {
     al_init(); // Inicializa Allegro
     al_init_image_addon(); // Para carregar imagens
