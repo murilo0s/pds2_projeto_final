@@ -25,26 +25,29 @@ Game::Game() : display(nullptr), eventQueue(nullptr), timer(nullptr), font(nullp
         keys[i] = false;
     }
     
-    if (!initAllegro()) {
-        // Tratar erro de inicialização
-        return;
+    try {
+        if (!initAllegro()) {
+            throw std::runtime_error("Falha na inicialização do Allegro");
+        }
+        
+        if (!initFonts()) {
+            throw std::runtime_error("Falha na inicialização das fontes");
+        }
+        
+        // Inicializa as classes auxiliares
+        renderer = new GameRenderer(font);
+        logic = new GameLogic();
+        
+        initGameObjects();
+        loadHighScore();
+        playerManager->carregar("ranking.txt");
+        jogadorAtual = nullptr;
+        jogadorSelecionado = false;
+        campoPreenchido = 0;
+    } catch (const std::exception& e) {
+        cleanup();
+        throw; // Re-lança a exceção para ser capturada no main
     }
-    
-    if (!initFonts()) {
-        // Tratar erro de fontes
-        return;
-    }
-    
-    // Inicializa as classes auxiliares
-    renderer = new GameRenderer(font);
-    logic = new GameLogic();
-    
-    initGameObjects();
-    loadHighScore();
-    playerManager->carregar("ranking.txt");
-    jogadorAtual = nullptr;
-    jogadorSelecionado = false;
-    campoPreenchido = 0;
 }
 
 Game::~Game() {
@@ -64,42 +67,42 @@ void Game::run() {
 
 bool Game::initAllegro() {
     if (!al_init()) {
-        return false;
+        throw std::runtime_error("Falha na inicialização do Allegro");
     }
     
     if (!al_init_image_addon()) {
-        return false;
+        throw std::runtime_error("Falha na inicialização do addon de imagem do Allegro");
     }
     
     if (!al_init_font_addon()) {
-        return false;
+        throw std::runtime_error("Falha na inicialização do addon de fonte do Allegro");
     }
     
     if (!al_init_ttf_addon()) {
-        return false;
+        throw std::runtime_error("Falha na inicialização do addon TTF do Allegro");
     }
     
     if (!al_init_primitives_addon()) {
-        return false;
+        throw std::runtime_error("Falha na inicialização do addon de primitivas do Allegro");
     }
     
     if (!al_install_keyboard()) {
-        return false;
+        throw std::runtime_error("Falha na instalação do teclado");
     }
     
     display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!display) {
-        return false;
+        throw std::runtime_error("Falha na criação do display");
     }
     
     eventQueue = al_create_event_queue();
     if (!eventQueue) {
-        return false;
+        throw std::runtime_error("Falha na criação da fila de eventos");
     }
     
     timer = al_create_timer(1.0 / FPS);
     if (!timer) {
-        return false;
+        throw std::runtime_error("Falha na criação do timer");
     }
     
     al_register_event_source(eventQueue, al_get_display_event_source(display));
@@ -120,7 +123,7 @@ bool Game::initFonts() {
     fontRegular = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 24, 0);
     fontSmall = al_load_ttf_font("assets/Fontes/GBStudioMono.ttf", 20, 0);
     if (!font || !fontLarge || !fontMedium || !fontTitle || !fontScore || !fontRegular || !fontSmall) {
-        return false;
+        throw std::runtime_error("Falha no carregamento das fontes TTF");
     }
     return true;
 }

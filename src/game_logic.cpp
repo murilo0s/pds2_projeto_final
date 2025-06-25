@@ -142,9 +142,13 @@ void GameLogic::handleGameOverInput(Game& game) {
     if (isKeyJustPressed(ALLEGRO_KEY_SPACE)) {
         // Atualiza estatísticas do jogador atual
         if (game.getJogadorAtual()) {
-            game.getJogadorAtual()->incrementar_partidas();
-            game.getJogadorAtual()->update_pontuacao_max(game.getScore());
-            game.getPlayerManager()->salvar("ranking.txt");
+            try {
+                game.getJogadorAtual()->incrementar_partidas();
+                game.getJogadorAtual()->update_pontuacao_max(game.getScore());
+                game.getPlayerManager()->salvar("ranking.txt");
+            } catch (const std::runtime_error& e) {
+                std::cerr << "ERRO ao salvar dados do jogador: " << e.what() << std::endl;
+            }
         }
         resetGame(game); // Reinicia o jogo
         game.setCurrentState(PLAYING);
@@ -152,9 +156,13 @@ void GameLogic::handleGameOverInput(Game& game) {
     if (isKeyJustPressed(ALLEGRO_KEY_M)) {
         // Atualiza estatísticas do jogador atual
         if (game.getJogadorAtual()) {
-            game.getJogadorAtual()->incrementar_partidas();
-            game.getJogadorAtual()->update_pontuacao_max(game.getScore());
-            game.getPlayerManager()->salvar("ranking.txt");
+            try {
+                game.getJogadorAtual()->incrementar_partidas();
+                game.getJogadorAtual()->update_pontuacao_max(game.getScore());
+                game.getPlayerManager()->salvar("ranking.txt");
+            } catch (const std::runtime_error& e) {
+                std::cerr << "ERRO ao salvar dados do jogador: " << e.what() << std::endl;
+            }
         }
         game.setCurrentState(PLAYER_MENU);
     }
@@ -215,21 +223,7 @@ void GameLogic::handleCadastroJogadorInput(Game& game) {
                 game.setShowFeedback(false);
             } else if (key == ALLEGRO_KEY_ENTER) {
                 if (!game.inputNome.empty() && !game.inputApelido.empty()) {
-                    // Verifica se o apelido já existe
-                    bool apelidoExiste = false;
-                    for (const auto& jogador : game.getPlayerManager()->getJogadores()) {
-                        if (jogador.getApelido() == game.inputApelido) {
-                            apelidoExiste = true;
-                            break;
-                        }
-                    }
-                    
-                    if (apelidoExiste) {
-                        // Mostra mensagem de erro
-                        game.setFeedbackMessage("Apelido ja existe. Tente outro.");
-                        game.setFeedbackStartTime(al_get_time());
-                        game.setShowFeedback(true);
-                    } else {
+                    try {
                         // Cadastra o jogador com sucesso
                         game.getPlayerManager()->cadastrar(game.inputNome, game.inputApelido);
                         game.getPlayerManager()->salvar("ranking.txt");
@@ -242,6 +236,11 @@ void GameLogic::handleCadastroJogadorInput(Game& game) {
                         // Aguarda um pouco antes de voltar ao menu
                         al_rest(2.0);
                         game.setCurrentState(PLAYER_MENU);
+                    } catch (const std::runtime_error& e) {
+                        // Mostra mensagem de erro
+                        game.setFeedbackMessage("Erro: " + std::string(e.what()));
+                        game.setFeedbackStartTime(al_get_time());
+                        game.setShowFeedback(true);
                     }
                 }
             } else if (key == ALLEGRO_KEY_ESCAPE) {
