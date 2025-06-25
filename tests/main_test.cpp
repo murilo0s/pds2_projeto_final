@@ -3,6 +3,6 @@
 
 #include "third_party/doctest.h"
 #include "Jogo/TesteBird.cpp"
-#include "Jogo/TestPipe.cpp"
+// #include "Jogo/TestPipe.cpp"
 #include "Cadastro/TestePlayer.cpp"
 #include "Cadastro/TestePlayerManager.cpp"

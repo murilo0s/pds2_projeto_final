@@ -3,7 +3,6 @@
 #include <allegro5/allegro_image.h>
 
 Bird::Bird(float startX, float startY): GameObject(startX, startY, 0, 0),
-      speedY(0.0f),
       gravity(800.0f),
       jumpStrength(-300.0f),
       bird_img(nullptr) {
@@ -27,18 +26,20 @@ Bird::~Bird() {
 // faz o passaro pular
 void Bird::jump() {
     // std::cout << "PULO!" << std::endl;
-    speedY = jumpStrength; // Define a velocidade vertical para o valor do pulo
+    setSpeed(getSpeedX(), jumpStrength); // Define a velocidade vertical para o valor do pulo
 }
 
 void Bird::update(float deltaTime) {
-    speedY += gravity * deltaTime; // Aplica a gravidade à velocidade vertical
+    float currentSpeedY = getSpeedY();
+    currentSpeedY += gravity * deltaTime; // Aplica a gravidade à velocidade vertical
     
     // Limita a velocidade de queda para não ficar muito rápida
-    if (speedY > 1000.0f) {
-        speedY = 1000.0f;
+    if (currentSpeedY > 1000.0f) {
+        currentSpeedY = 1000.0f;
     }
     
-    y += speedY * deltaTime; // Atualiza a posição vertical do pássaro
+    setSpeed(getSpeedX(), currentSpeedY);
+    y += currentSpeedY * deltaTime; // Atualiza a posição vertical do pássaro
 }
 
 void Bird::render() {
@@ -66,5 +67,5 @@ int Bird::getHeight() const {
 void Bird::setPosition(float newX, float newY) {
     x = newX;
     y = newY;
-    speedY = 0.0f; // Reseta a velocidade vertical quando reposiciona
+    setSpeed(getSpeedX(), 0.0f); // Reseta a velocidade vertical quando reposiciona
 }
