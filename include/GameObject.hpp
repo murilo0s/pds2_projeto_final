@@ -27,31 +27,67 @@ public:
     virtual ~GameObject() = default;
 
     // Métodos virtuais puros (devem ser implementados pelas classes derivadas)
-    virtual void update(float deltaTime) = 0; // Atualiza o estado do objeto
-    virtual void render() = 0; ///< Desenha o objeto na tela
+    /**
+     * @brief Atualiza o estado do objeto
+     * 
+     * @param deltaTime Referencia o tempo percorrido entre um frame e outro 
+     */
+    virtual void update(float deltaTime) = 0; 
+    /**
+     * @brief Desenha o objeto na tela
+     */
+    virtual void render() = 0;
     /**
      * @brief Verifica colisão com outro objeto
      * 
-     * @param other 
+     * @param other Referencia o objeto other
      * @return true 
      * @return false 
      */
-    virtual bool checkCollision(const GameObject& other) = 0; // Verifica colisão com outro objeto
+    virtual bool checkCollision(const GameObject& other) = 0;
 
     // Métodos de implementação (podem ser sobrescritos)
-    virtual bool isOffScreen(); ///< Verifica se o objeto saiu da tela
-    virtual void move() { ///< Move o objeto de acordo com sua velocidade
+    /**
+     * @brief Verifica se o objeto saiu da tela
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool isOffScreen(); 
+    /**
+     * @brief Move o objeto de acordo com sua velocidade
+     * 
+     */
+    virtual void move() { 
         x += speedX;
         y += speedY;
     }
 
     // Getters (acessam atributos privados/protegidos)
-    float getX() const { return x; } ///< Retorna posição X
-    float getY() const { return y; } ///< Retorna posição Y
-    float getWidth() const { return width; } ///< Retorna largura
-    float getHeight() const { return height; } ///< Retorna altura
-    float getSpeedX() const { return speedX; } ///< Retorna velocidade X
-    float getSpeedY() const { return speedY; } ///< Retorna velocidade Y
+    /**
+     * @brief Retorna a posição do eixo x do objeto
+     */
+    float getX() const { return x; }
+    /**
+     * @brief Retorna a posição do eixo y do objeto 
+     */
+    float getY() const { return y; } 
+    /**
+     * @brief Retorna a largura do objeto
+     */
+    float getWidth() const { return width; } 
+    /**
+     * @brief Retorna a altura do objeto
+     */
+    float getHeight() const { return height; } 
+    /**
+     * @brief Retorna a velocidade do objeto no eixo x
+     */
+    float getSpeedX() const { return speedX; } 
+    /** 
+     * @brief Retorna a velocidade do objeto no eixo y
+     */
+    float getSpeedY() const { return speedY; } 
 
     // Setters (modificam atributos)
     /**
