@@ -4,8 +4,8 @@
 - Murilo Felipe dos Santos Ferreira
 - Guilherme Henrique Morangon Gaspar
 - Marcelo Areal 
-- Julia Natalie
-- Samuel Abner
+- Júlia Natalie Gonçalves Bento
+- Samuel Abner Martins Ribeiro
 
 
 ### Descrição do Projeto
