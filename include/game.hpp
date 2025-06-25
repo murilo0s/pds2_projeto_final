@@ -58,9 +58,9 @@ private:
     ALLEGRO_FONT* fontLarge; ///< ponteiro para fonte grande
     ALLEGRO_FONT* fontMedium; ///< ponteiro para fonte média
     ALLEGRO_FONT* fontTitle;   ///< ponteiro para fonte do título
-    ALLEGRO_FONT* fontScore;   ///< 36px
-    ALLEGRO_FONT* fontRegular; ///< 24px
-    ALLEGRO_FONT* fontSmall;   ///< 20px
+    ALLEGRO_FONT* fontScore;   ///< ponteiro para fonta da pontuação
+    ALLEGRO_FONT* fontRegular; ///< ponteiro para fonte regular
+    ALLEGRO_FONT* fontSmall;   ///< ponteiro para fonte pequena
 
     // Objetos do jogo
     Bird* bird; ///< ponteiro para o pássaro que o jogador controla
