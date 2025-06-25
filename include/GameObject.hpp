@@ -23,7 +23,10 @@ public:
      */
     GameObject(float x, float y, float width, float height);
 
-    // Destrutor virtual padrão (permite herança segura)
+    /**
+     * @brief Destrutor virtual padrão (permite herança segura)
+     * 
+     */
     virtual ~GameObject() = default;
 
     // Métodos virtuais puros (devem ser implementados pelas classes derivadas)
