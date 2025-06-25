@@ -79,6 +79,4 @@ public:
     void imprimir_jogador();
 };
 
-};
-
 #endif

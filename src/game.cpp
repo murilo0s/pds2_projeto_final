@@ -288,3 +288,81 @@ void Game::cleanupGameObjects() {
 
 void Game::menuJogador() {
 }
+
+Player* Game::getJogadorAtual() {
+    return jogadorAtual;
+}
+
+const Player* Game::getJogadorAtual() const {
+    return jogadorAtual;
+}
+
+void Game::setJogadorAtual(Player* jogador) {
+    jogadorAtual = jogador;
+}
+
+// Cursor and feedback methods
+double Game::getCursorBlinkTime() const {
+    return cursorBlinkTime;
+}
+
+bool Game::getCursorVisible() const {
+    return cursorVisible;
+}
+
+std::string Game::getFeedbackMessage() const {
+    return feedbackMessage;
+}
+
+double Game::getFeedbackStartTime() const {
+    return feedbackStartTime;
+}
+
+bool Game::getShowFeedback() const {
+    return showFeedback;
+}
+
+void Game::setCursorBlinkTime(double time) {
+    cursorBlinkTime = time;
+}
+
+void Game::setCursorVisible(bool visible) {
+    cursorVisible = visible;
+}
+
+void Game::setFeedbackMessage(const std::string& message) {
+    feedbackMessage = message;
+}
+
+void Game::setFeedbackStartTime(double time) {
+    feedbackStartTime = time;
+}
+
+void Game::setShowFeedback(bool show) {
+    showFeedback = show;
+}
+
+// Font getter methods
+ALLEGRO_FONT* Game::getFontLarge() const {
+    return fontLarge;
+}
+
+ALLEGRO_FONT* Game::getFontMedium() const {
+    return fontMedium;
+}
+
+ALLEGRO_FONT* Game::getFontTitle() const {
+    return fontTitle;
+}
+
+ALLEGRO_FONT* Game::getFontScore() const {
+    return fontScore;
+}
+
+ALLEGRO_FONT* Game::getFontRegular() const {
+    return fontRegular;
+}
+
+ALLEGRO_FONT* Game::getFontSmall() const {
+    return fontSmall;
+}
